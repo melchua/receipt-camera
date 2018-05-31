@@ -7,7 +7,7 @@ import Photo from './Photo';
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
 
 export default class GalleryScreen extends React.Component {
-  state = {''
+  state = {
     faces: {},
     images: {},
     photos: [],

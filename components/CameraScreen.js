@@ -132,12 +132,13 @@ class CameraScreen extends React.Component {
   takePicture = () => {
     console.log("Take picture");
     if (this.camera) {
-      this.camera.takePictureAsync()
-        // .then(this.onPictureSaved)
+      this.camera.takePictureAsync({ base64: true })
+        // .then(photo => console.log(photo.base64));
         .then( photo => this.props.navigation.navigate('Preview', {
-          photo: photo.uri,
-        }));
-        // .then(() => {setTimeout(()=> {this.props.navigation.navigate('Preview');}, 8000)});
+          photo: photo.base64,
+          uri: photo.uri
+        }))
+         // .then(() => {setTimeout(()=> {this.props.navigation.navigate('Preview');}, 8000)});
     }
   };
 

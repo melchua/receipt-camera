@@ -23,13 +23,13 @@ import {
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
 
 class PhotoPreview extends React.Component {
-
+  static navigationOptions = {
+    header: null,
+  }
   render() {
 
     const {navigation} = this.props;
     const photo = navigation.getParam('photo', 'defaultvalue');
-    const stringphoto = JSON.stringify(photo);
-    console.log('photo: ', photo);
 
     return (
 

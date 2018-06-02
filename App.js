@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
+  TouchableOpacity, // Trans Buttons?
   Slider,
   Platform
 } from 'react-native';

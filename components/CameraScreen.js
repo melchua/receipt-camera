@@ -54,7 +54,21 @@ const wbIcons = {
   incandescent: 'wb-incandescent',
 };
 
+
+// class LogoTitle extends React.Component {
+//   render() {
+//     return (
+//       <View style={{height: 0, backgroundColor: 'transparent'}}>
+//       </View>
+//     );
+//   }
+// }
+
 class CameraScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   state = {
     flash: 'off',
     zoom: 0,
@@ -120,11 +134,9 @@ class CameraScreen extends React.Component {
     if (this.camera) {
       this.camera.takePictureAsync()
         // .then(this.onPictureSaved)
-        // .then(() => {console.log(Date.now(), "inter-then");})
         .then( photo => this.props.navigation.navigate('Preview', {
           photo: photo.uri,
-        }))
-        .then(() => {console.log(Date.now(), "post-then");});
+        }));
         // .then(() => {setTimeout(()=> {this.props.navigation.navigate('Preview');}, 8000)});
     }
   };

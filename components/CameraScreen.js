@@ -118,21 +118,26 @@ class CameraScreen extends React.Component {
   takePicture = () => {
     console.log("Take picture");
     if (this.camera) {
-      console.log("inside if statement");
       this.camera.takePictureAsync()
-        .then(this.onPictureSaved);
-      console.log("right before exiting");
+        // .then(this.onPictureSaved)
+        // .then(() => {console.log(Date.now(), "inter-then");})
+        .then( photo => this.props.navigation.navigate('Preview', {
+          photo: photo.uri,
+        }))
+        .then(() => {console.log(Date.now(), "post-then");});
+        // .then(() => {setTimeout(()=> {this.props.navigation.navigate('Preview');}, 8000)});
     }
   };
 
   onPictureSaved = async photo => {
-    console.log("saving pic");
+    const to = `${FileSystem.documentDirectory}photos/previewphoto.jpg`;
     await FileSystem.moveAsync({
       from: photo.uri,
-      to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
+      to: to,
     });
+
     this.setState({ newPhotos: true });
-  }
+  };
 
   onBarCodeRead = code => {
     this.setState(
@@ -267,9 +272,11 @@ class CameraScreen extends React.Component {
   renderBottomBar = () =>
     <View
       style={styles.bottomBar}>
-      <TouchableOpacity style={styles.bottomButton} onPress={this.toggleMoreOptions}>
-        <Octicons name="kebab-horizontal" size={30} color="white"/>
+
+      <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('Preview')}>
+        <Octicons name="squirrel" size={30} color="white"/>
       </TouchableOpacity>
+
       <View style={{ flex: 0.4 }}>
         <TouchableOpacity
           onPress={this.takePicture}

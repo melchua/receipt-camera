@@ -1,4 +1,4 @@
-import { Constants, Camera, FileSystem, Permissions } from 'expo';
+import { Constants, Camera, FileSystem, Permissions, ImageManipulator } from 'expo';
 import React from 'react';
 import {
  Alert,
@@ -23,7 +23,29 @@ import {
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
 
 class PhotoPreview extends React.Component {
+  constructor(props){
+    super(props),
+    this.state = {
+      image: "hello"
+    }
+  }
+  resizePicture = async() =>{
+    const manipResult = await ImageManipulator.manipulate(
+      this.props.navigation.getParam('uri', 'defaultvalue'),
+      [{resize:{width:1024}}],{format: 'png', base64:true}
+    )
+    console.log(manipResult)
+    this.setState({
+      image: manipResult
+    });
+  }
+
  handlePress = async () => {
+    this.resizePicture()
+      .then(console.log("hellowelcome"))
+      .catch(err => console.log("err", err))
+     
+    
 
    fetch('http://10.30.31.122:8080/images', {
        method: 'POST',

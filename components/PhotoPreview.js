@@ -36,23 +36,16 @@ class PhotoPreview extends React.Component {
   resizePicture = async() =>{
     const manipResult = await ImageManipulator.manipulate(
       this.props.navigation.getParam('uri', 'defaultvalue'),
-<<<<<<< HEAD
-      [{resize:{width:50}}],{format: 'png', base64:true}
-=======
       [{resize:{width:800}}],{format: 'png', base64:true}
->>>>>>> cb89ebd0e715b2b69df93578b95ac1355428db5a
     )
       this.setState({
       image: manipResult
     })
-<<<<<<< HEAD
-=======
     console.log("right before upload picture");
     this.uploadPicture();
   }
 
   uploadPicture = () => {
->>>>>>> cb89ebd0e715b2b69df93578b95ac1355428db5a
     fetch('http://10.30.31.122:8080/images', {
       method: 'POST',
       headers: {
@@ -72,10 +65,6 @@ class PhotoPreview extends React.Component {
       console.error(error);
     })
   }
-<<<<<<< HEAD
-
-  static navigationOptions = {
-=======
    handlePress = async () => {
       console.log("Inside Handle");
       this.setState({ visibleModal: 1 });
@@ -84,7 +73,6 @@ class PhotoPreview extends React.Component {
         .catch(err => console.log("err", err))
    }
    static navigationOptions = {
->>>>>>> cb89ebd0e715b2b69df93578b95ac1355428db5a
      header: null,
    }
 

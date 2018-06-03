@@ -28,38 +28,42 @@ class PhotoPreview extends React.Component {
     this.state = {
       image: "hello"
     }
+    this.uploadPicture = this.uploadPicture.bind(this)
   }
   resizePicture = async() =>{
     const manipResult = await ImageManipulator.manipulate(
       this.props.navigation.getParam('uri', 'defaultvalue'),
       [{resize:{width:1024}}],{format: 'png', base64:true}
     )
-    console.log(manipResult)
-    this.setState({
+      this.setState({
       image: manipResult
-    });
+    })
+    this.uploadPicture();
   }
 
+  uploadPicture = () => {
+    fetch('http://10.30.31.122:8080/images', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    body: JSON.stringify({
+        id: "2",
+        photo: this.state.image
+      })
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    })    
+  }
  handlePress = async () => {
     this.resizePicture()
-      .then(console.log("hellowelcome"))
+      .then()           
       .catch(err => console.log("err", err))
-     
-    
-
-   fetch('http://10.30.31.122:8080/images', {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify({
-           id: "2",
-           photo: this.props.navigation.getParam('photo', 'defaultvalue')
-       })
- })
-   .catch((error) => {
-     console.error(error);
-   });
  }
  static navigationOptions = {
    header: null,

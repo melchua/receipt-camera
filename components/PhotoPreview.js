@@ -25,8 +25,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
 
-
-
 class PhotoPreview extends React.Component {
   constructor(props){
     super(props),
@@ -39,11 +37,12 @@ class PhotoPreview extends React.Component {
   resizePicture = async() =>{
     const manipResult = await ImageManipulator.manipulate(
       this.props.navigation.getParam('uri', 'defaultvalue'),
-      [{resize:{width:1024}}],{format: 'png', base64:true}
+      [{resize:{width:800}}],{format: 'png', base64:true}
     )
       this.setState({
       image: manipResult
     })
+    console.log("right before upload picture");
     this.uploadPicture();
   }
 
@@ -60,6 +59,7 @@ class PhotoPreview extends React.Component {
     })
     .then((response) => response.json())
     .then((response) => {
+      this.setState({visibleModal: null});
       console.log(response);
     })
     .catch((error) => {
@@ -67,6 +67,8 @@ class PhotoPreview extends React.Component {
     })
   }
    handlePress = async () => {
+      console.log("Inside Handle");
+      this.setState({ visibleModal: 1 });
       this.resizePicture()
         .then()
         .catch(err => console.log("err", err))
@@ -100,7 +102,7 @@ class PhotoPreview extends React.Component {
 
    const {navigation} = this.props;
    const uri = navigation.getParam('uri', 'defaultvalue');
-
+   console.log("uri: ", uri);
    return (
 
      <View style={styles.container}>
@@ -115,10 +117,7 @@ class PhotoPreview extends React.Component {
 
          <TouchableOpacity style={styles.bottomButton}>
            <View>
-              <Ionicons name="ios-send" size={30} color="white" onPress={() => {
-                this.setState({ visibleModal: 1 });
-                this.handlePress.bind(this);
-              }}/>
+              <Ionicons name="ios-send" size={30} color="white" onPress={this.handlePress.bind(this)}/>
            </View>
          </TouchableOpacity>
 

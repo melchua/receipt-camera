@@ -14,9 +14,10 @@ import { createStackNavigator } from 'react-navigation';
 import CameraScreen from './components/CameraScreen';
 import PhotoPreview from './components/PhotoPreview';
 import GalleryScreen from './GalleryScreen';
+import FormModalScreen from './components/FormModalScreen';
 
 
-const RootStack = createStackNavigator({
+const MainStack = createStackNavigator({
   Camera: CameraScreen,
   Preview: PhotoPreview,
   Gallery: GalleryScreen,
@@ -25,6 +26,22 @@ const RootStack = createStackNavigator({
     initialRouteName: 'Camera',
   }
 );
+
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack,
+    },
+    FormModal: {
+      screen: FormModalScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);
+
 
 
 export default class App extends React.Component {

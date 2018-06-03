@@ -2,24 +2,31 @@ import { Constants, Camera, FileSystem, Permissions, ImageManipulator } from 'ex
 import React from 'react';
 import Modal from 'react-native-modal';
 import {
- Alert,
- StyleSheet,
- Text,
- View,
- TouchableOpacity,
- Slider,
- Platform,
- Image
-} from 'react-native';
+  Alert,
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  Navigator,
+  Animated,
+  Dimensions,
+  TouchableOpacity,
+  Slider,
+  Platform,
+  Image
+  } from 'react-native';
+  
 
-import {
- Ionicons,
- MaterialIcons,
- Foundation,
- MaterialCommunityIcons,
- Octicons
-} from '@expo/vector-icons';
+  import {
+    Ionicons,
+    MaterialIcons,
+    Foundation,
+    MaterialCommunityIcons,
+    Octicons
+    } from '@expo/vector-icons';
 
+
+import ReceiptFormModal from './ReceiptForm.js';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -59,6 +66,7 @@ class PhotoPreview extends React.Component {
     .then((response) => response.json())
     .then((response) => {
       this.setState({visibleModal: null});
+      this.props.navigation.navigate('ReceiptFormModal')
       console.log(response);
     })
     .catch((error) => {
@@ -110,7 +118,7 @@ class PhotoPreview extends React.Component {
          source={ {uri: uri} }
        />
       <View style={styles.bottomBar}>
-         <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('Camera')}>
+         <TouchableOpacity style={styles.bottomButton}  onPress={() => this.props.navigation.navigate('Camera')}>
            <Octicons name="reply" size={30} color="white"/>
          </TouchableOpacity>
 

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
+import ReceiptForm from './components/ReceiptForm';
 import CameraScreen from './components/CameraScreen';
 import PhotoPreview from './components/PhotoPreview';
 import GalleryScreen from './GalleryScreen';
@@ -18,6 +19,7 @@ import FormModalScreen from './components/FormModalScreen';
 
 
 const MainStack = createStackNavigator({
+  Receipt: ReceiptForm,
   Camera: CameraScreen,
   Preview: PhotoPreview,
   Gallery: GalleryScreen,
@@ -35,6 +37,9 @@ const RootStack = createStackNavigator(
     FormModal: {
       screen: FormModalScreen,
     },
+    ReceiptFormModal:{
+      screen: ReceiptForm,
+    }
   },
   {
     mode: 'modal',

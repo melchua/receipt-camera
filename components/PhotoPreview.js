@@ -1,5 +1,6 @@
 import { Constants, Camera, FileSystem, Permissions, ImageManipulator } from 'expo';
 import React from 'react';
+import Modal from 'react-native-modal';
 import {
  Alert,
  StyleSheet,
@@ -19,14 +20,19 @@ import {
  Octicons
 } from '@expo/vector-icons';
 
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
+
+
 
 class PhotoPreview extends React.Component {
   constructor(props){
     super(props),
     this.state = {
-      image: "hello"
+      image: "hello",
+      visibleModal: null
     }
     this.uploadPicture = this.uploadPicture.bind(this)
   }
@@ -58,17 +64,39 @@ class PhotoPreview extends React.Component {
     })
     .catch((error) => {
       console.error(error);
-    })    
+    })
   }
- handlePress = async () => {
-    this.resizePicture()
-      .then()           
-      .catch(err => console.log("err", err))
- }
- static navigationOptions = {
-   header: null,
- }
- render() {
+   handlePress = async () => {
+      this.resizePicture()
+        .then()
+        .catch(err => console.log("err", err))
+   }
+   static navigationOptions = {
+     header: null,
+   }
+
+  // Modal Pop Setup
+
+    _renderModalContent = () => (
+      <View style={styles.modalContent}>
+        <Button
+          title="SENDING"
+          loading
+          loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
+          titleStyle={{ fontWeight: "700" }}
+          buttonStyle={{
+            backgroundColor: "rgba(106, 226, 198, 1)",
+            width: 300,
+            height: 60,
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 5
+          }}
+          containerStyle={{ marginTop: 20 }}
+        />
+      </View>
+    );
+   render() {
 
    const {navigation} = this.props;
    const uri = navigation.getParam('uri', 'defaultvalue');
@@ -80,17 +108,27 @@ class PhotoPreview extends React.Component {
          style={styles.pictures}
          source={ {uri: uri} }
        />
-        <View style={styles.bottomBar}>
-           <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('Camera')}>
-             <Octicons name="reply" size={30} color="white"/>
-           </TouchableOpacity>
+      <View style={styles.bottomBar}>
+         <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('Camera')}>
+           <Octicons name="reply" size={30} color="white"/>
+         </TouchableOpacity>
 
-           <TouchableOpacity style={styles.bottomButton}>
-             <View>
-               <Ionicons name="ios-send" size={30} color="white" onPress={this.handlePress.bind(this)} />
-             </View>
-           </TouchableOpacity>
-         </View>
+         <TouchableOpacity style={styles.bottomButton}>
+           <View>
+              <Ionicons name="ios-send" size={30} color="white" onPress={() => {
+                this.setState({ visibleModal: 1 });
+                this.handlePress.bind(this);
+              }}/>
+           </View>
+         </TouchableOpacity>
+
+       </View>
+
+        <Modal isVisible={this.state.visibleModal === 1} onBackdropPress={() => this.setState({ visibleModal: null })} >
+          {this._renderModalContent()}
+        </Modal>
+
+
    </View>
    );
  }
@@ -129,6 +167,29 @@ const styles = StyleSheet.create({
    flex: 0.13,
    flexDirection: 'row',
  },
+  mod_container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  button: {
+    backgroundColor: "lightblue",
+    padding: 12,
+    margin: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  }
 });
+
 
 export default PhotoPreview;

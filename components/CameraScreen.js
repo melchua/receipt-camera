@@ -132,7 +132,7 @@ class CameraScreen extends React.Component {
   takePicture = () => {
     console.log("Take picture");
     if (this.camera) {
-      this.camera.takePictureAsync({ base64: true })
+      this.camera.takePictureAsync()
         // .then(photo => console.log(photo.base64));
         .then( photo => this.props.navigation.navigate('Preview', {
           photo: photo.base64,

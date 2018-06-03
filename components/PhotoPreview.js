@@ -34,26 +34,21 @@ class PhotoPreview extends React.Component {
       image: "hello",
       visibleModal: null
     }
-    this.uploadPicture = this.uploadPicture.bind(this)
   }
   resizePicture = async() =>{
     const manipResult = await ImageManipulator.manipulate(
       this.props.navigation.getParam('uri', 'defaultvalue'),
-      [{resize:{width:1024}}],{format: 'png', base64:true}
+      [{resize:{width:50}}],{format: 'png', base64:true}
     )
       this.setState({
       image: manipResult
     })
-    this.uploadPicture();
-  }
-
-  uploadPicture = () => {
     fetch('http://10.30.31.122:8080/images', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-    body: JSON.stringify({
+      body: JSON.stringify({
         id: "2",
         photo: this.state.image
       })
@@ -66,12 +61,8 @@ class PhotoPreview extends React.Component {
       console.error(error);
     })
   }
-   handlePress = async () => {
-      this.resizePicture()
-        .then()
-        .catch(err => console.log("err", err))
-   }
-   static navigationOptions = {
+
+  static navigationOptions = {
      header: null,
    }
 
@@ -117,7 +108,7 @@ class PhotoPreview extends React.Component {
            <View>
               <Ionicons name="ios-send" size={30} color="white" onPress={() => {
                 this.setState({ visibleModal: 1 });
-                this.handlePress.bind(this);
+                this.resizePicture.bind(this);
               }}/>
            </View>
          </TouchableOpacity>

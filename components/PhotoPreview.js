@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Slider,
   Platform,
-  Image
+  Image,
   } from 'react-native';
   
 
@@ -25,7 +25,7 @@ import {
     Octicons
     } from '@expo/vector-icons';
 
-
+import { Dialog } from 'react-native-simple-dialogs';
 import ReceiptFormModal from './ReceiptForm.js';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -37,7 +37,7 @@ class PhotoPreview extends React.Component {
     super(props),
     this.state = {
       image: "hello",
-      visibleModal: null
+      visibleModal: null,
     }
   }
   resizePicture = async() =>{
@@ -70,14 +70,15 @@ class PhotoPreview extends React.Component {
       console.log(response);
     })
     .catch((error) => {
-      console.error(error);
+      this.setState({
+        visibleModal: 2,
+      })
     })
   }
    handlePress = async () => {
       console.log("Inside Handle");
       this.setState({ visibleModal: 1 });
       this.resizePicture()
-        .then()
         .catch(err => console.log("err", err))
    }
    static navigationOptions = {
@@ -99,12 +100,49 @@ class PhotoPreview extends React.Component {
             height: 60,
             borderColor: "transparent",
             borderWidth: 0,
-            borderRadius: 5
+            borderRadius: 5,
           }}
           containerStyle={{ marginTop: 20 }}
         />
       </View>
     );
+
+    //error modal Pop Up
+    _renderErrorModalContent = () => (
+      <View style={styles.modalContent}>
+        <Button
+          title="Error! Unable to Read Receipt. Please Try Again."
+          icon={{name: 'alert', type: 'octicon', buttonStyle: styles.someButtonStyle }}
+          titleStyle={{ fontWeight: "700" }}
+          buttonStyle={{
+            backgroundColor: "#cc0000",
+            width: 300,
+            height: 80,
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 5,
+          }}
+          containerStyle={{ marginTop: 20 }}
+          onPress={() => this.props.navigation.navigate('Camera')}
+        />
+      </View>
+    );
+
+    _checkDisplayState = (number) =>{
+      if(number === 1){
+        return this._renderModalContent()
+      } else if (number === 2){
+        return this._renderErrorModalContent()
+      }
+    }
+
+    _onBackgroundPress = (number) =>{
+      if(number === 1){
+        return this.setState({ visibleModal: 1 })
+      } else if (number === 2){
+        return this.props.navigation.navigate('Camera')
+      }
+    }
    render() {
 
    const {navigation} = this.props;
@@ -118,23 +156,20 @@ class PhotoPreview extends React.Component {
          source={ {uri: uri} }
        />
       <View style={styles.bottomBar}>
-         <TouchableOpacity style={styles.bottomButton}  onPress={() => this.props.navigation.navigate('Camera')}>
-           <Octicons name="reply" size={30} color="white"/>
+         <TouchableOpacity style={styles.bottomButtonRight}  onPress={() => this.props.navigation.navigate('Camera')}>
+           <Octicons name="triangle-left" size={30} color="white"/>
          </TouchableOpacity>
 
-         <TouchableOpacity style={styles.bottomButton}>
-           <View>
-              <Ionicons name="ios-send" size={30} color="white" onPress={this.handlePress.bind(this)}/>
-           </View>
+         <TouchableOpacity style={styles.bottomButtonLeft}  onPress={this.handlePress.bind(this)} >
+              <Octicons name="triangle-right" size={30} color="white"/>
          </TouchableOpacity>
 
        </View>
 
-        <Modal isVisible={this.state.visibleModal === 1} onBackdropPress={() => this.setState({ visibleModal: null })} >
-          {this._renderModalContent()}
+        <Modal isVisible={this.state.visibleModal !== null} onBackdropPress={() => this._onBackgroundPress(this.state.visibleModal)} >
+          {this._checkDisplayState(this.state.visibleModal)}
+        }
         </Modal>
-
-
    </View>
    );
  }
@@ -159,12 +194,20 @@ const styles = StyleSheet.create({
    justifyContent: 'space-around',
    paddingVertical: 8,
  },
- bottomButton: {
+ bottomButtonLeft: {
    flex: 1,
    height: 58,
+   paddingRight: 30,
    justifyContent: 'center',
-   alignItems: 'center',
+   alignItems: 'flex-end',
  },
+ bottomButtonRight: {
+  flex: 1,
+  height: 58,
+  paddingLeft: 30,
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+},
  bottomBar: {
    paddingBottom: 5,
    backgroundColor: 'transparent',
@@ -175,22 +218,21 @@ const styles = StyleSheet.create({
  },
   mod_container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center"
   },
   button: {
     backgroundColor: "lightblue",
     padding: 12,
     margin: 16,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
     borderRadius: 4,
     borderColor: "rgba(0, 0, 0, 0.1)"
   },
   modalContent: {
-    backgroundColor: "white",
-    padding: 40,
-    justifyContent: "center",
+    backgroundColor: 'transparent',
+    justifyContent: "flex-end",
     alignItems: "center",
     borderRadius: 4,
     borderColor: "rgba(0, 0, 0, 0.1)"

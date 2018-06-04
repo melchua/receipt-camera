@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, TextInput, View, StyleSheet, Picker } from 'react-native';
+import { Text, StatusBar, TextInput, View, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Constants } from 'expo';
 import { List, ListItem, FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -63,7 +63,10 @@ submitForm = () => {
     value: 'Entertainment',
   }];
    return (
-     <View style={styles.container}>
+
+     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <ScrollView ref='_scrollView' style={{flex:1}}>
+
        <StatusBar barStyle="light-content" />
 
 
@@ -92,17 +95,22 @@ submitForm = () => {
 
        <FormLabel>Description</FormLabel>
        <FormInput
+       multiline = {true}
        placeholder={'Please enter your Description'}
        onChangeText = {(inputDescription) => this.setState({description:inputDescription})}/>
 
        <Button
-         large
-         icon={{name: 'squirrel', type: 'octicon', buttonStyle: {backgroundColor: 'black'}}}
-         title='SUBMIT'
-         buttonStyle={styles.submitButton}
-         onPress={this.submitForm.bind(this)}
-          />
-     </View>
+       large
+       icon={{name: 'squirrel', type: 'octicon', buttonStyle: {backgroundColor: 'black'}}}
+       title='SUBMIT'
+       buttonStyle={styles.submitButton}
+       onPress={this.submitForm.bind(this)}
+       />
+           </ScrollView>
+
+
+     </KeyboardAvoidingView>
+
    );
  }
 
@@ -122,18 +130,15 @@ const styles = StyleSheet.create({
    justifyContent: 'space-around',
  },
  header: {
-   flex: 1,
    paddingTop: 20 + Constants.statusBarHeight,
    padding: 20,
    backgroundColor: '#336699',
  },
  description: {
-   flex: 1,
    fontSize: 14,
    color: 'white',
  },
  input: {
-   flex: 1,
    margin: 20,
    marginBottom: 0,
    height: 34,
@@ -146,5 +151,6 @@ const styles = StyleSheet.create({
  submitButton: {
    backgroundColor: "#53B5F6",
    borderColor: "transparent",
+   position: "fixed",
  },
 });

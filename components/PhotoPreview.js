@@ -15,7 +15,7 @@ import {
   Platform,
   Image,
   } from 'react-native';
-  
+
 
   import {
     Ionicons,

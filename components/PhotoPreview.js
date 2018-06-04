@@ -109,24 +109,16 @@ class PhotoPreview extends React.Component {
 
     //error modal Pop Up
     _renderErrorModalContent = () => (
-      <View style={styles.modalContent}>
-        <Button
-          title="Error! Unable to Read Receipt. Please Try Again."
-          icon={{name: 'alert', type: 'octicon', buttonStyle: styles.someButtonStyle }}
-          titleStyle={{ fontWeight: "700" }}
-          buttonStyle={{
-            backgroundColor: "#cc0000",
-            width: 300,
-            height: 80,
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 5,
-          }}
-          containerStyle={{ marginTop: 20 }}
-          onPress={() => this.props.navigation.navigate('Camera')}
-        />
-      </View>
-    );
+      Alert.alert(
+        'Invalid Picture',
+        'Unable to read receipt. Please try again', [{
+            text: 'OK',
+            onPress: () => this.props.navigation.navigate('Camera')
+          },
+        ], {
+          cancelable: false
+        }
+      ));
 
     _checkDisplayState = (number) =>{
       if(number === 1){

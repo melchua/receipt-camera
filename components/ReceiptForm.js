@@ -1,9 +1,31 @@
-import React, { Component } from 'react';
-import { Text, StatusBar, TextInput, View, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
-import { Constants } from 'expo';
-import { List, ListItem, FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
-import { Dropdown } from 'react-native-material-dropdown';
+import React, {
+  Component
+} from 'react';
+import {
+  Text,
+  StatusBar,
+  TextInput,
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Alert
+} from 'react-native';
+import {
+  Constants
+} from 'expo';
+import {
+  List,
+  ListItem,
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+  Button,
 
+} from 'react-native-elements';
+import {
+  Dropdown
+} from 'react-native-material-dropdown';
 
 
 export default class ReceiptFormModal extends Component {
@@ -18,10 +40,9 @@ export default class ReceiptFormModal extends Component {
       project_name:"Lighthouse",
       description:"",
 
-      valid_total: null,
-      valid_date: null,
-      valid_modal: null,
-      submit_modal: null,
+      valid_total: 1,
+      valid_date: 1,
+
     };
   }
   componentWillMount() {
@@ -33,7 +54,6 @@ export default class ReceiptFormModal extends Component {
     });
   }
 
-<<<<<<< HEAD
 _valid_total = (total) =>{
   let totalNumber = Number(total)
   if(totalNumber >= 0){
@@ -45,7 +65,7 @@ _valid_total = (total) =>{
 }
 
 _valid_date = (date) =>{
-  date_regex = '/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/';
+  date_regex = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/;
   if(date.match(date_regex)){
    this.setState({valid_date:1})
    this.setState({date:date})
@@ -54,40 +74,45 @@ _valid_date = (date) =>{
   }
 }
 
-
-=======
->>>>>>> 6c067b5c8f652c1747fe803842d4ffdc0f2751fd
 submitForm = () => {
-  if(this.state.valid_total === 1 || this.state.valid_date === 1 )
-  {
-    fetch('http://10.30.31.122:8080/receipts/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: this.state.id,
-          location: this.state.location,
-          total: this.state.total,
-          date: this.state.date,
-          description: this.state.description,
-          project_id: 1,
-          category_id: 1,
-          image_url: "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg"
+    if (this.state.valid_total && this.state.valid_date) {
+      fetch('http://10.30.31.122:8080/receipts/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user_id: this.state.id,
+            location: this.state.location,
+            total: this.state.total,
+            date: this.state.date,
+            description: this.state.description,
+            project_id: 1,
+            category_id: 1,
+            image_url: "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg"
+          })
         })
-      })
-      .then((response) => {
-        this.props.navigation.navigate('Camera')
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    } else{
+        .then((response) => {
+          this.props.navigation.navigate('Camera')
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+    } else if (this.state.valid_total === null) {
       Alert.alert(
-        'Invalid entry',
-        'Invalid Total or Date Format'
+        'Invalid Total',
+        'Enter a valid total above zero',
         [
-          {text: 'OK'}
+          {text: 'OK'},
+        ],
+        { cancelable: false }
+      )
+    } else if (this.state.valid_date === null){
+      Alert.alert(
+        'Invalid Date',
+        'Enter a valid date in MM/DD/YY format',
+        [
+          {text: 'OK'},
         ],
         { cancelable: false }
       )
@@ -119,13 +144,8 @@ submitForm = () => {
        <FormInput
        value={this.state.date}
        placeholder={'MM/DD/YYYY'}
-<<<<<<< HEAD
        onChangeText = {(inputDate) => this._valid_date(inputDate)}/>
        
-=======
-       onChangeText = {(inputDate) => this.setState({date:inputDate})}/>
-
->>>>>>> 6c067b5c8f652c1747fe803842d4ffdc0f2751fd
        <Dropdown
        containerStyle = {{paddingLeft: 20, paddingRight: 20}}
        label='Category'

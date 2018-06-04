@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Text, StatusBar, TextInput, View, StyleSheet } from 'react-native';
 import { Constants } from 'expo';
 import { List, ListItem, FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
+import { Dropdown } from 'react-native-material-dropdown';
 
 
 
 export default class ReceiptFormModal extends Component {
+
  state = {
    total: '',
    date: '',
@@ -14,12 +16,17 @@ export default class ReceiptFormModal extends Component {
  };
 
 onSubmitButtonPress() {
- console.log(
-   this.state.total,
-   this.state.date,
-   this.state.category,
-   this.state.location,
-   )
+  fetch('http://localhost:8080.com/', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    total: this.state.total,
+    category: this.state.category,
+  }),
+});
 }
 
  render() {
@@ -45,9 +52,19 @@ onSubmitButtonPress() {
        value={autoDate}
        placeholder={'MM/DD/YYYY'}
        onChangeText = {(inputDate) => this.setState({date:inputDate})}/>
-       <FormLabel>Category
+       <Dropdown
+        label='Choose a Category'
+        onChangeText={selectedCat => this.setState({category: selectedCat})}
+        containerStyle={{padding:20}}
+        data={[{
+          value: 'Banana',
+          }, {
+          value: 'Mango',
+          }, {
+          value: 'Pear',
+          }]}
+        />
 
-       </FormLabel>
        <FormLabel>Location</FormLabel>
        <FormInput
        value={autoLocation}
@@ -107,3 +124,13 @@ const styles = StyleSheet.create({
    borderColor: "transparent",
  },
 });
+
+        // <Dropdown
+        //   label='Favorite Fruit'
+        //   data={[{
+        //       value: 'Banana',
+        //     }, {
+        //       value: 'Mango',
+        //     }, {
+        //       value: 'Pear',
+        //     }]}/>

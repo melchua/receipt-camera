@@ -66,7 +66,7 @@ class PhotoPreview extends React.Component {
     .then((response) => response.json())
     .then((response) => {
       this.setState({visibleModal: null});
-      this.props.navigation.navigate('ReceiptFormModal')
+      this.props.navigation.navigate('ReceiptFormModal', {visionResponse:response})
       console.log(response);
     })
     .catch((error) => {

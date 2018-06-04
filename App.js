@@ -9,7 +9,9 @@ import {
   Slider,
   Platform
 } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import {
+  createStackNavigator
+} from 'react-navigation';
 
 import ReceiptForm from './components/ReceiptForm';
 import CameraScreen from './components/CameraScreen';
@@ -23,36 +25,31 @@ const MainStack = createStackNavigator({
   Camera: CameraScreen,
   Preview: PhotoPreview,
   Gallery: GalleryScreen,
-  },
-  {
-    initialRouteName: 'Camera',
-  }
-);
+}, {
+  initialRouteName: 'Camera',
+});
 
-const RootStack = createStackNavigator(
-  {
-    Main: {
-      screen: MainStack,
-    },
-    FormModal: {
-      screen: FormModalScreen,
-    },
-    ReceiptFormModal:{
-      screen: ReceiptForm,
-    }
+const RootStack = createStackNavigator({
+  Main: {
+    screen: MainStack,
   },
-  {
-    mode: 'modal',
-    headerMode: 'none',
+  FormModal: {
+    screen: FormModalScreen,
+  },
+  ReceiptFormModal: {
+    screen: ReceiptForm,
   }
-);
+}, {
+  mode: 'modal',
+  headerMode: 'none',
+});
 
 
 
 export default class App extends React.Component {
   render() {
-    return (
-      <RootStack />
+    return ( <
+      RootStack / >
     );
   }
 }

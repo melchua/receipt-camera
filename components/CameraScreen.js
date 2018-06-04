@@ -1,4 +1,9 @@
-import { Constants, Camera, FileSystem, Permissions } from 'expo';
+import {
+  Constants,
+  Camera,
+  FileSystem,
+  Permissions
+} from 'expo';
 import React from 'react';
 import {
   Alert,
@@ -65,132 +70,174 @@ const wbIcons = {
 // }
 
 class CameraScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
+    static navigationOptions = {
+      header: null,
+    };
 
-  state = {
-    flash: 'off',
-    zoom: 0,
-    autoFocus: 'on',
-    type: 'back',
-    whiteBalance: 'auto',
-    ratio: '16:9',
-    ratios: [],
-    barcodeScanning: false,
-    faceDetecting: false,
-    faces: [],
-    newPhotos: false,
-    permissionsGranted: false,
-    pictureSize: undefined,
-    pictureSizes: [],
-    pictureSizeId: 0,
-    showGallery: false,
-    showMoreOptions: false,
-  };
+    state = {
+      flash: 'off',
+      zoom: 0,
+      autoFocus: 'on',
+      type: 'back',
+      whiteBalance: 'auto',
+      ratio: '16:9',
+      ratios: [],
+      barcodeScanning: false,
+      faceDetecting: false,
+      faces: [],
+      newPhotos: false,
+      permissionsGranted: false,
+      pictureSize: undefined,
+      pictureSizes: [],
+      pictureSizeId: 0,
+      showGallery: false,
+      showMoreOptions: false,
+    };
 
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ permissionsGranted: status === 'granted' });
-  }
-
-  componentDidMount() {
-    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch(e => {
-      console.log(e, 'Directory exists');
-    });
-  }
-
-  getRatios = async () => {
-    const ratios = await this.camera.getSupportedRatios();
-    return ratios;
-  };
-
-  toggleView = () => this.setState({ showGallery: !this.state.showGallery, newPhotos: false });
-
-  toggleMoreOptions = () => this.setState({ showMoreOptions: !this.state.showMoreOptions });
-
-  toggleFacing = () => this.setState({ type: this.state.type === 'back' ? 'front' : 'back' });
-
-  toggleFlash = () => this.setState({ flash: flashModeOrder[this.state.flash] });
-
-  setRatio = ratio => this.setState({ ratio });
-
-  toggleWB = () => this.setState({ whiteBalance: wbOrder[this.state.whiteBalance] });
-
-  toggleFocus = () => this.setState({ autoFocus: this.state.autoFocus === 'on' ? 'off' : 'on' });
-
-  zoomOut = () => this.setState({ zoom: this.state.zoom - 0.1 < 0 ? 0 : this.state.zoom - 0.1 });
-
-  zoomIn = () => this.setState({ zoom: this.state.zoom + 0.1 > 1 ? 1 : this.state.zoom + 0.1 });
-
-  setFocusDepth = depth => this.setState({ depth });
-
-  toggleBarcodeScanning = () => this.setState({ barcodeScanning: !this.state.barcodeScanning });
-
-  toggleFaceDetection = () => this.setState({ faceDetecting: !this.state.faceDetecting });
-
-  takePicture = () => {
-    console.log("Take picture");
-    if (this.camera) {
-      this.camera.takePictureAsync()
-        .then( photo => this.props.navigation.navigate('Preview', {
-          uri: photo.uri
-        }))
+    async componentWillMount() {
+      const {
+        status
+      } = await Permissions.askAsync(Permissions.CAMERA);
+      this.setState({
+        permissionsGranted: status === 'granted'
+      });
     }
-    console.log("Take picture ends");
-  };
 
-  onPictureSaved = async photo => {
-    const to = `${FileSystem.documentDirectory}photos/previewphoto.jpg`;
-    await FileSystem.moveAsync({
-      from: photo.uri,
-      to: to,
+    componentDidMount() {
+      FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch(e => {
+        console.log(e, 'Directory exists');
+      });
+    }
+
+    getRatios = async () => {
+      const ratios = await this.camera.getSupportedRatios();
+      return ratios;
+    };
+
+    toggleView = () => this.setState({
+      showGallery: !this.state.showGallery,
+      newPhotos: false
     });
 
-    this.setState({ newPhotos: true });
-  };
+    toggleMoreOptions = () => this.setState({
+      showMoreOptions: !this.state.showMoreOptions
+    });
 
-  onBarCodeRead = code => {
-    this.setState(
-      { barcodeScanning: !this.state.barcodeScanning },
-      Alert.alert(`Barcode found: ${code.data}`)
-    );
-  };
+    toggleFacing = () => this.setState({
+      type: this.state.type === 'back' ? 'front' : 'back'
+    });
 
-  onFacesDetected = ({ faces }) => this.setState({ faces });
-  onFaceDetectionError = state => console.warn('Faces detection error:', state);
+    toggleFlash = () => this.setState({
+      flash: flashModeOrder[this.state.flash]
+    });
 
-  // collectPictureSizes = async () => {
-  //   if (this.camera) {
-  //     const pictureSizes = await this.camera.getAvailablePictureSizesAsync(this.state.ratio);
-  //     let pictureSizeId = 0;
-  //     if (Platform.OS === 'ios') {
-  //       pictureSizeId = pictureSizes.indexOf('High');
-  //     } else {
-  //       // returned array is sorted in ascending order - default size is the largest one
-  //       pictureSizeId = pictureSizes.length-1;
-  //     }
-  //     this.setState({ pictureSizes, pictureSizeId, pictureSize: pictureSizes[pictureSizeId] });
-  //   }
-  // };
+    setRatio = ratio => this.setState({
+      ratio
+    });
 
-  // previousPictureSize = () => this.changePictureSize(1);
-  // nextPictureSize = () => this.changePictureSize(-1);
+    toggleWB = () => this.setState({
+      whiteBalance: wbOrder[this.state.whiteBalance]
+    });
 
-  changePictureSize = direction => {
-    let newId = this.state.pictureSizeId + direction;
-    const length = this.state.pictureSizes.length;
-    if (newId >= length) {
-      newId = 0;
-    } else if (newId < 0) {
-      newId = length -1;
+    toggleFocus = () => this.setState({
+      autoFocus: this.state.autoFocus === 'on' ? 'off' : 'on'
+    });
+
+    zoomOut = () => this.setState({
+      zoom: this.state.zoom - 0.1 < 0 ? 0 : this.state.zoom - 0.1
+    });
+
+    zoomIn = () => this.setState({
+      zoom: this.state.zoom + 0.1 > 1 ? 1 : this.state.zoom + 0.1
+    });
+
+    setFocusDepth = depth => this.setState({
+      depth
+    });
+
+    toggleBarcodeScanning = () => this.setState({
+      barcodeScanning: !this.state.barcodeScanning
+    });
+
+    toggleFaceDetection = () => this.setState({
+      faceDetecting: !this.state.faceDetecting
+    });
+
+    takePicture = () => {
+      console.log("Take picture");
+      if (this.camera) {
+        this.camera.takePictureAsync()
+          .then(photo => this.props.navigation.navigate('Preview', {
+            uri: photo.uri
+          }))
+      }
+      console.log("Take picture ends");
+    };
+
+    onPictureSaved = async photo => {
+      const to = `${FileSystem.documentDirectory}photos/previewphoto.jpg`;
+      await FileSystem.moveAsync({
+        from: photo.uri,
+        to: to,
+      });
+
+      this.setState({
+        newPhotos: true
+      });
+    };
+
+    onBarCodeRead = code => {
+      this.setState({
+          barcodeScanning: !this.state.barcodeScanning
+        },
+        Alert.alert(`Barcode found: ${code.data}`)
+      );
+    };
+
+    onFacesDetected = ({
+      faces
+    }) => this.setState({
+      faces
+    });
+    onFaceDetectionError = state => console.warn('Faces detection error:', state);
+
+    // collectPictureSizes = async () => {
+    //   if (this.camera) {
+    //     const pictureSizes = await this.camera.getAvailablePictureSizesAsync(this.state.ratio);
+    //     let pictureSizeId = 0;
+    //     if (Platform.OS === 'ios') {
+    //       pictureSizeId = pictureSizes.indexOf('High');
+    //     } else {
+    //       // returned array is sorted in ascending order - default size is the largest one
+    //       pictureSizeId = pictureSizes.length-1;
+    //     }
+    //     this.setState({ pictureSizes, pictureSizeId, pictureSize: pictureSizes[pictureSizeId] });
+    //   }
+    // };
+
+    // previousPictureSize = () => this.changePictureSize(1);
+    // nextPictureSize = () => this.changePictureSize(-1);
+
+    changePictureSize = direction => {
+      let newId = this.state.pictureSizeId + direction;
+      const length = this.state.pictureSizes.length;
+      if (newId >= length) {
+        newId = 0;
+      } else if (newId < 0) {
+        newId = length - 1;
+      }
+      this.setState({
+        pictureSize: this.state.pictureSizes[newId],
+        pictureSizeId: newId
+      });
     }
-    this.setState({ pictureSize: this.state.pictureSizes[newId], pictureSizeId: newId });
-  }
 
-  renderGallery() {
-    return <GalleryScreen onPress={this.toggleView.bind(this)} />;
-  }
+    renderGallery() {
+      return <GalleryScreen onPress = {
+        this.toggleView.bind(this)
+      }
+      />;
+    }
 
   renderFace({ bounds, faceID, rollAngle, yawAngle }) {
     return (

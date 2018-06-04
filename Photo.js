@@ -1,89 +1,113 @@
 import React from 'react';
-import { Image, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-import { FaceDetector } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
+import {
+  Image,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text
+} from 'react-native';
+import {
+  FaceDetector
+} from 'expo';
+import {
+  Ionicons
+} from '@expo/vector-icons';
 
 const pictureSize = 150;
 
 export default class Photo extends React.Component {
-  state = {
-    selected: false,
-    faces: [],
-    image: null,
-  };
-  _mounted = false;
+    state = {
+      selected: false,
+      faces: [],
+      image: null,
+    };
+    _mounted = false;
 
-  componentDidMount() {
-    this._mounted = true;
-  }
+    componentDidMount() {
+      this._mounted = true;
+    }
 
-  componentWillUnmount() {
-    this._mounted = false;
-  }
+    componentWillUnmount() {
+      this._mounted = false;
+    }
 
-  toggleSelection = () => {
-    this.setState(
-      { selected: !this.state.selected },
-      () => this.props.onSelectionToggle(this.props.uri, this.state.selected)
-    );
-  }
+    toggleSelection = () => {
+      this.setState({
+          selected: !this.state.selected
+        },
+        () => this.props.onSelectionToggle(this.props.uri, this.state.selected)
+      );
+    }
 
-  detectFace = () =>
-    FaceDetector.detectFacesAsync(this.props.uri, {
-      detectLandmarks: FaceDetector.Constants.Landmarks.none,
-      runClassifications: FaceDetector.Constants.Classifications.all,
-    })
+    detectFace = () =>
+      FaceDetector.detectFacesAsync(this.props.uri, {
+        detectLandmarks: FaceDetector.Constants.Landmarks.none,
+        runClassifications: FaceDetector.Constants.Classifications.all,
+      })
       .then(this.facesDetected)
       .catch(this.handleFaceDetectionError);
 
-  facesDetected = ({ image, faces }) => {
-    this.setState({
-      faces,
+    facesDetected = ({
       image,
-    });
-  }
-
-  getImageDimensions = ({ width, height }) => {
-    if (width > height) {
-      const scaledHeight = pictureSize * height / width;
-      return {
-        width: pictureSize,
-        height: scaledHeight,
-
-        scaleX: pictureSize / width,
-        scaleY: scaledHeight / height,
-
-        offsetX: 0,
-        offsetY: (pictureSize - scaledHeight) / 2,
-      };
-    } else {
-      const scaledWidth = pictureSize * width / height;
-      return {
-        width: scaledWidth,
-        height: pictureSize,
-
-        scaleX: scaledWidth / width,
-        scaleY: pictureSize / height,
-
-        offsetX: (pictureSize - scaledWidth) / 2,
-        offsetY: 0,
-      };
+      faces
+    }) => {
+      this.setState({
+        faces,
+        image,
+      });
     }
-  };
 
-  handleFaceDetectionError = error => console.warn(error);
+    getImageDimensions = ({
+      width,
+      height
+    }) => {
+      if (width > height) {
+        const scaledHeight = pictureSize * height / width;
+        return {
+          width: pictureSize,
+          height: scaledHeight,
 
-  renderFaces = () => this.state.image && this.state.faces && this.state.faces.map(this.renderFace);
+          scaleX: pictureSize / width,
+          scaleY: scaledHeight / height,
 
-  renderFace = (face, index) => {
-    const { image } = this.state;
-    const { scaleX, scaleY, offsetX, offsetY } = this.getImageDimensions(image);
-    const layout = {
-      top: offsetY + face.bounds.origin.y * scaleY,
-      left: offsetX + face.bounds.origin.x * scaleX,
-      width: face.bounds.size.width * scaleX,
-      height: face.bounds.size.height * scaleY,
+          offsetX: 0,
+          offsetY: (pictureSize - scaledHeight) / 2,
+        };
+      } else {
+        const scaledWidth = pictureSize * width / height;
+        return {
+          width: scaledWidth,
+          height: pictureSize,
+
+          scaleX: scaledWidth / width,
+          scaleY: pictureSize / height,
+
+          offsetX: (pictureSize - scaledWidth) / 2,
+          offsetY: 0,
+        };
+      }
     };
+
+    handleFaceDetectionError = error => console.warn(error);
+
+    renderFaces = () => this.state.image && this.state.faces && this.state.faces.map(this.renderFace);
+
+    renderFace = (face, index) => {
+        const {
+          image
+        } = this.state;
+        const {
+          scaleX,
+          scaleY,
+          offsetX,
+          offsetY
+        } = this.getImageDimensions(image);
+        const layout = {
+          top: offsetY + face.bounds.origin.y * scaleY,
+          left: offsetX + face.bounds.origin.x * scaleX,
+          width: face.bounds.size.width * scaleX,
+          height: face.bounds.size.height * scaleY,
+        };
 
     return (
       <View
@@ -102,22 +126,23 @@ export default class Photo extends React.Component {
   render() {
     const { uri } = this.props;
     return (
-        <TouchableOpacity
-          style={styles.pictureWrapper}
-          onLongPress={this.detectFace}
-          onPress={this.toggleSelection}
-          activeOpacity={1}
-        >
-          <Image
-            style={styles.picture}
-            source={{ uri }}
-          />
-          {this.state.selected && <Ionicons name="md-checkmark-circle" size={30} color="#4630EB" />}
-          <View style={styles.facesContainer}>
-            {this.renderFaces()}
-          </View>
-        </TouchableOpacity>
-      );
+      <TouchableOpacity
+        style={styles.pictureWrapper}
+        onLongPress={this.detectFace}
+        onPress={this.toggleSelection}
+        activeOpacity={1}
+      >
+
+        <Image
+          style={styles.picture}
+          source={{ uri }}
+        />
+        {this.state.selected && <Ionicons name="md-checkmark-circle" size={30} color="#4630EB" />}
+        <View style={styles.facesContainer}>
+          {this.renderFaces()}
+        </View>
+      </TouchableOpacity>
+    );
   };
 }
 

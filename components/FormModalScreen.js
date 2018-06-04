@@ -1,4 +1,9 @@
-import { Constants, Camera, FileSystem, Permissions } from 'expo';
+import {
+  Constants,
+  Camera,
+  FileSystem,
+  Permissions
+} from 'expo';
 import React from 'react';
 import {
   Alert,

@@ -16,7 +16,12 @@ export default class ReceiptFormModal extends Component {
       location: '',
       id:"",
       project_name:"Lighthouse",
-      description:""
+      description:"",
+
+      valid_total: null,
+      valid_date: null,
+      valid_modal: null,
+      submit_modal: null,
     };
   }
   componentWillMount() {
@@ -28,35 +33,62 @@ export default class ReceiptFormModal extends Component {
     });
   }
 
-getCatId =(category_name) =>{
-
+_valid_total = (total) =>{
+  let totalNumber = Number(total)
+  if(totalNumber >= 0){
+    this.setState({valid_total:1})
+    this.setState({total:total})
+  } else{
+    this.setState({valid_total:null})
+  }
 }
 
+_valid_date = (date) =>{
+  date_regex = '/(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/';
+  if(date.match(date_regex)){
+   this.setState({valid_date:1})
+   this.setState({date:date})
+  } else{
+    this.setState({valid_date:null})
+  }
+}
+
+
 submitForm = () => {
-  console.log("my current states",this.state)
-  console.log("my current props", this.props)
-  fetch('http://10.30.31.122:8080/receipts/submit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user_id: this.state.id,
-      location: this.state.location,
-      total: this.state.total,
-      date: this.state.date,
-      description: this.state.description,
-      project_id: 1,
-      category_id: 1,
-      image_url: "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg"
-    })
-  })
-    .then((response) => {
-      this.props.navigation.navigate('Camera')
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+  if(this.state.valid_total === 1 || this.state.valid_date === 1 )
+  {
+    fetch('http://10.30.31.122:8080/receipts/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: this.state.id,
+          location: this.state.location,
+          total: this.state.total,
+          date: this.state.date,
+          description: this.state.description,
+          project_id: 1,
+          category_id: 1,
+          image_url: "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg"
+        })
+      })
+      .then((response) => {
+        this.props.navigation.navigate('Camera')
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+    } else{
+      Alert.alert(
+        'Invalid entry',
+        'Invalid Total or Date Format'
+        [
+          {text: 'OK'}
+        ],
+        { cancelable: false }
+      )
+    }
   }
  render() {
   let data = [{
@@ -75,13 +107,13 @@ submitForm = () => {
        <FormInput
        value={(this.state.total)}
        placeholder={'Please enter your total'}
-       onChangeText = {(inputTotal) => this.setState({total:inputTotal})} />
+       onChangeText = {(inputTotal) => this._valid_total(inputTotal)} />
 
-       <FormLabel>Date</FormLabel>
+       <FormLabel>Date (MM/DD/YY)</FormLabel>
        <FormInput
        value={this.state.date}
        placeholder={'MM/DD/YYYY'}
-       onChangeText = {(inputDate) => this.setState({date:inputDate})}/>
+       onChangeText = {(inputDate) => this._valid_date(inputDate)}/>
        
        <Dropdown
        containerStyle = {{padding:20}}

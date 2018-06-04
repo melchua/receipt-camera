@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, TextInput, View, StyleSheet, Picker } from 'react-native';
+import { Text, StatusBar, TextInput, View, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Constants } from 'expo';
 import { List, ListItem, FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -25,7 +25,7 @@ export default class ReceiptFormModal extends Component {
     };
   }
   componentWillMount() {
-    this.setState({ 
+    this.setState({
       total: this.props.navigation.state.params.visionResponse.total.toFixed(2).toString(),
       date: this.props.navigation.state.params.visionResponse.date,
       id: this.props.navigation.state.params.visionResponse.id,
@@ -33,6 +33,7 @@ export default class ReceiptFormModal extends Component {
     });
   }
 
+<<<<<<< HEAD
 _valid_total = (total) =>{
   let totalNumber = Number(total)
   if(totalNumber >= 0){
@@ -54,6 +55,8 @@ _valid_date = (date) =>{
 }
 
 
+=======
+>>>>>>> 6c067b5c8f652c1747fe803842d4ffdc0f2751fd
 submitForm = () => {
   if(this.state.valid_total === 1 || this.state.valid_date === 1 )
   {
@@ -99,7 +102,10 @@ submitForm = () => {
     value: 'Entertainment',
   }];
    return (
-     <View style={styles.container}>
+
+     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'space-around'}}>
+
        <StatusBar barStyle="light-content" />
 
 
@@ -113,32 +119,43 @@ submitForm = () => {
        <FormInput
        value={this.state.date}
        placeholder={'MM/DD/YYYY'}
+<<<<<<< HEAD
        onChangeText = {(inputDate) => this._valid_date(inputDate)}/>
        
+=======
+       onChangeText = {(inputDate) => this.setState({date:inputDate})}/>
+
+>>>>>>> 6c067b5c8f652c1747fe803842d4ffdc0f2751fd
        <Dropdown
-       containerStyle = {{padding:20}}
+       containerStyle = {{paddingLeft: 20, paddingRight: 20}}
        label='Category'
        data={data}
        onChangeText = {(inputCategory) => this.setState({category:inputCategory})}/>
-       
+
        <FormLabel>Location</FormLabel>
        <FormInput
        placeholder={'Please enter your location'}
        onChangeText = {(inputLocation) => this.setState({location:inputLocation})}/>
-       
+
        <FormLabel>Description</FormLabel>
        <FormInput
+       multiline = {true}
+       numberOfLines= {4}
        placeholder={'Please enter your Description'}
        onChangeText = {(inputDescription) => this.setState({description:inputDescription})}/>
-       
+
+      </ScrollView>
+
        <Button
-         large
-         icon={{name: 'squirrel', type: 'octicon', buttonStyle: {backgroundColor: 'black'}}}
-         title='SUBMIT'
-         buttonStyle={styles.submitButton}
-         onPress={this.submitForm.bind(this)}
-          />      
-     </View>
+       large
+       icon={{name: 'squirrel', type: 'octicon', buttonStyle: {backgroundColor: 'black'}}}
+       title='SUBMIT'
+       buttonStyle={styles.submitButton}
+       onPress={this.submitForm.bind(this)}
+       />
+
+     </KeyboardAvoidingView>
+
    );
  }
 
@@ -158,18 +175,15 @@ const styles = StyleSheet.create({
    justifyContent: 'space-around',
  },
  header: {
-   flex: 1,
    paddingTop: 20 + Constants.statusBarHeight,
    padding: 20,
    backgroundColor: '#336699',
  },
  description: {
-   flex: 1,
    fontSize: 14,
    color: 'white',
  },
  input: {
-   flex: 1,
    margin: 20,
    marginBottom: 0,
    height: 34,
@@ -182,5 +196,6 @@ const styles = StyleSheet.create({
  submitButton: {
    backgroundColor: "#53B5F6",
    borderColor: "transparent",
+
  },
 });

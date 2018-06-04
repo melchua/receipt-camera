@@ -65,7 +65,7 @@ submitForm = () => {
    return (
 
      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-      <ScrollView ref='_scrollView' style={{flex:1}}>
+      <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'space-around'}}>
 
        <StatusBar barStyle="light-content" />
 
@@ -83,7 +83,7 @@ submitForm = () => {
        onChangeText = {(inputDate) => this.setState({date:inputDate})}/>
 
        <Dropdown
-       containerStyle = {{padding:20}}
+       containerStyle = {{paddingLeft: 20, paddingRight: 20}}
        label='Category'
        data={data}
        onChangeText = {(inputCategory) => this.setState({category:inputCategory})}/>
@@ -96,8 +96,11 @@ submitForm = () => {
        <FormLabel>Description</FormLabel>
        <FormInput
        multiline = {true}
+       numberOfLines= {4}
        placeholder={'Please enter your Description'}
        onChangeText = {(inputDescription) => this.setState({description:inputDescription})}/>
+
+      </ScrollView>
 
        <Button
        large
@@ -106,8 +109,6 @@ submitForm = () => {
        buttonStyle={styles.submitButton}
        onPress={this.submitForm.bind(this)}
        />
-           </ScrollView>
-
 
      </KeyboardAvoidingView>
 
@@ -151,6 +152,6 @@ const styles = StyleSheet.create({
  submitButton: {
    backgroundColor: "#53B5F6",
    borderColor: "transparent",
-   position: "fixed",
+
  },
 });

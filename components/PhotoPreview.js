@@ -15,7 +15,7 @@ import {
   Platform,
   Image
   } from 'react-native';
-  
+
 
   import {
     Ionicons,
@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
    flex: 1,
    height: 58,
    justifyContent: 'center',
-   alignItems: 'center',
+   alignSelf: 'center'
+
  },
  bottomBar: {
    paddingBottom: 5,

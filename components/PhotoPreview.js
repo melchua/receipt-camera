@@ -67,6 +67,7 @@ class PhotoPreview extends React.Component {
 
     AsyncStorage.getItem('jwtToken')
       .then((result) => {
+        
         fetch('http://10.30.31.122:8080/images', {
             method: 'POST',
             headers: {
@@ -74,7 +75,6 @@ class PhotoPreview extends React.Component {
               'Authorization': `Bearer ${result}`
             },
             body: JSON.stringify({
-              id: "2",
               photo: this.state.image
             })
           })

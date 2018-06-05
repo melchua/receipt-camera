@@ -47,7 +47,6 @@ export default class Login extends Component {
     })
     .then((response) => response.json())
     .then((response) => {
-      console.log(response)
       AsyncStorage.setItem('jwtToken', response)
       console.log('item stored')
       this.props.navigation.navigate('Camera')
@@ -55,7 +54,7 @@ export default class Login extends Component {
     .catch((error) => {
       Alert.alert(
         'Invalid Login',
-        'Unable input correct user information', [{
+        'Incorrect user information. Please try again.', [{
           text: 'OK',
           onPress: ""
         }, ], {
@@ -101,7 +100,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2c3e50',
-    justifyContent: 'center',
     paddingHorizontal: 30,
   },
   loginContainer: {
@@ -111,6 +109,8 @@ const styles = StyleSheet.create({
   formContainer: {
     backgroundColor: 'rgba(40, 75, 99, 0.8);',
     borderRadius: 10,
+    justifyContent: 'center',
+    display:'flex', 
   },
   loginButton: {
     backgroundColor: 'orange',
@@ -126,8 +126,10 @@ const styles = StyleSheet.create({
   },
   companyName: {
     color: "white",
-    alignSelf: 'center',
+    alignSelf: 'auto',
     fontSize: 50,
-    top: -50,
+    alignSelf: 'center',
+    marginTop: 70
+
   }
 })

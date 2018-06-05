@@ -36,7 +36,7 @@ export default class ReceiptFormModal extends Component {
         date: '',
         category: '',
         location: '',
-        id: "",
+        user_id: "",
         project_name: "Lighthouse",
         description: "",
 
@@ -49,7 +49,7 @@ export default class ReceiptFormModal extends Component {
     this.setState({
       total: this.props.navigation.state.params.visionResponse.total.toFixed(2).toString(),
       date: this.props.navigation.state.params.visionResponse.date,
-      id: this.props.navigation.state.params.visionResponse.id,
+      id: this.props.navigation.state.params.visionResponse.user_id,
 
     });
   }
@@ -94,7 +94,7 @@ export default class ReceiptFormModal extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            user_id: this.state.id,
+            user_id: this.state.user_id,
             location: this.state.location,
             total: this.state.total,
             date: this.state.date,

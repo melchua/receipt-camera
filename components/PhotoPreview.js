@@ -122,10 +122,9 @@ class PhotoPreview extends React.Component {
       Alert.alert(
         'Invalid Picture',
         'Unable to read receipt. Please try again', [{
-            text: 'OK',
-            onPress: () => this.props.navigation.navigate('Camera')
-          },
-        ], {
+          text: 'OK',
+          onPress: () => this.props.navigation.navigate('Camera')
+        }, ], {
           cancelable: false
         }
       ));

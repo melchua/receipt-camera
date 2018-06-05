@@ -14,6 +14,7 @@ import {
   Slider,
   Platform,
   Image,
+  AsyncStorage
   } from 'react-native';
 
 
@@ -52,17 +53,25 @@ class PhotoPreview extends React.Component {
     this.uploadPicture();
   }
 
+
+
   uploadPicture = () => {
-    fetch('http://10.30.31.122:8080/images', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: "2",
-        photo: this.state.image
-      })
-    })
+    // const jwtToken = AsyncStorage.getItem('jwtToken');
+    // console.log(jwtToken);
+
+    AsyncStorage.getItem('jwtToken')
+    .then( (result) => {
+      fetch('http://10.30.31.122:8080/images', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${result}`
+        },
+        body: JSON.stringify({
+          id: "2",
+          photo: this.state.image
+        })
+      }) 
     .then((response) => response.json())
     .then((response) => {
       this.setState({visibleModal: null});
@@ -72,14 +81,15 @@ class PhotoPreview extends React.Component {
     .catch((error) => {
       this.setState({
         visibleModal: 2,
-      })
-    })
-  }
+      });
+    });
+  })
+  };
    handlePress = async () => {
       console.log("Inside Handle");
       this.setState({ visibleModal: 1 });
       this.resizePicture()
-        .catch(err => console.log("err", err))
+        .catch(err => console.log("err", err));
    }
    static navigationOptions = {
      header: null,
@@ -112,10 +122,9 @@ class PhotoPreview extends React.Component {
       Alert.alert(
         'Invalid Picture',
         'Unable to read receipt. Please try again', [{
-            text: 'OK',
-            onPress: () => this.props.navigation.navigate('Camera')
-          },
-        ], {
+          text: 'OK',
+          onPress: () => this.props.navigation.navigate('Camera')
+        }, ], {
           cancelable: false
         }
       ));

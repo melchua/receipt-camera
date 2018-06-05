@@ -331,7 +331,7 @@ class CameraScreen extends React.Component {
     <View
       style={styles.bottomBar}>
 
-      <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('FormModal')}>
+      <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('Login')}>
         <Octicons name="squirrel" size={30} color="white"/>
       </TouchableOpacity>
 

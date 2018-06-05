@@ -18,15 +18,16 @@ import CameraScreen from './components/CameraScreen';
 import PhotoPreview from './components/PhotoPreview';
 import GalleryScreen from './GalleryScreen';
 import FormModalScreen from './components/FormModalScreen';
-
+import LoginScreen from './components/LoginScreen';
 
 const MainStack = createStackNavigator({
   Receipt: ReceiptForm,
   Camera: CameraScreen,
   Preview: PhotoPreview,
   Gallery: GalleryScreen,
+  Login: LoginScreen,
 }, {
-  initialRouteName: 'Camera',
+  initialRouteName: 'Login',
 });
 
 const RootStack = createStackNavigator({

@@ -29,21 +29,21 @@ import {
 
 
 export default class ReceiptFormModal extends Component {
-  constructor(props){
+  constructor(props) {
     super(props),
-    state = {
-      total: '',
-      date: '',
-      category: '',
-      location: '',
-      id:"",
-      project_name:"Lighthouse",
-      description:"",
+      state = {
+        total: '',
+        date: '',
+        category: '',
+        location: '',
+        id: "",
+        project_name: "Lighthouse",
+        description: "",
 
-      valid_total: 1,
-      valid_date: 1,
+        valid_total: 1,
+        valid_date: 1,
 
-    };
+      };
   }
   componentWillMount() {
     this.setState({
@@ -54,27 +54,39 @@ export default class ReceiptFormModal extends Component {
     });
   }
 
-_valid_total = (total) =>{
-  let totalNumber = Number(total)
-  if(totalNumber >= 0){
-    this.setState({valid_total:1})
-    this.setState({total:total})
-  } else{
-    this.setState({valid_total:null})
+  _valid_total = (total) => {
+    let totalNumber = Number(total)
+    if (totalNumber >= 0) {
+      this.setState({
+        valid_total: 1
+      })
+      this.setState({
+        total: total
+      })
+    } else {
+      this.setState({
+        valid_total: null
+      })
+    }
   }
-}
 
-_valid_date = (date) =>{
-  date_regex = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/;
-  if(date.match(date_regex)){
-   this.setState({valid_date:1})
-   this.setState({date:date})
-  } else{
-    this.setState({valid_date:null})
+  _valid_date = (date) => {
+    date_regex = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/;
+    if (date.match(date_regex)) {
+      this.setState({
+        valid_date: 1
+      })
+      this.setState({
+        date: date
+      })
+    } else {
+      this.setState({
+        valid_date: null
+      })
+    }
   }
-}
 
-submitForm = () => {
+  submitForm = () => {
     if (this.state.valid_total && this.state.valid_date) {
       fetch('http://10.30.31.122:8080/receipts/submit', {
           method: 'POST',
@@ -101,31 +113,31 @@ submitForm = () => {
     } else if (this.state.valid_total === null) {
       Alert.alert(
         'Invalid Total',
-        'Enter a valid total above zero',
-        [
-          {text: 'OK'},
-        ],
-        { cancelable: false }
+        'Enter a valid total above zero', [{
+          text: 'OK'
+        }, ], {
+          cancelable: false
+        }
       )
-    } else if (this.state.valid_date === null){
+    } else if (this.state.valid_date === null) {
       Alert.alert(
         'Invalid Date',
-        'Enter a valid date in MM/DD/YY format',
-        [
-          {text: 'OK'},
-        ],
-        { cancelable: false }
+        'Enter a valid date in MM/DD/YY format', [{
+          text: 'OK'
+        }, ], {
+          cancelable: false
+        }
       )
     }
   }
- render() {
-  let data = [{
-    value: 'Food',
-  }, {
-    value: 'Travel',
-  }, {
-    value: 'Entertainment',
-  }];
+  render() {
+      let data = [{
+        value: 'Food',
+      }, {
+        value: 'Travel',
+      }, {
+        value: 'Entertainment',
+      }];
    return (
 
      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>

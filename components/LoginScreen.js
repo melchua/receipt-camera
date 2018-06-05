@@ -36,33 +36,33 @@ export default class Login extends Component {
 
   login = () => {
     fetch('http://10.30.31.122:8080/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password
-        })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
       })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response)
-        AsyncStorage.setItem('jwtToken', response)
-        console.log('item stored')
-        this.props.navigation.navigate('Camera')
-      })
-      .catch((error) => {
-        Alert.alert(
-          'Invalid Login',
-          'Unable input correct user information', [{
-            text: 'OK',
-            onPress: ""
-          }, ], {
-            cancelable: false
-          }
-        )
-      })
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response)
+      AsyncStorage.setItem('jwtToken', response)
+      console.log('item stored')
+      this.props.navigation.navigate('Camera')
+    })
+    .catch((error) => {
+      Alert.alert(
+        'Invalid Login',
+        'Unable input correct user information', [{
+          text: 'OK',
+          onPress: ""
+        }, ], {
+          cancelable: false
+        }
+      )
+    })
   }
   render() {
       return (
@@ -99,35 +99,35 @@ export default class Login extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: '#2c3e50',
-      justifyContent:'center',
-      paddingHorizontal: 30,
+    flex: 1,
+    backgroundColor: '#2c3e50',
+    justifyContent: 'center',
+    paddingHorizontal: 30,
   },
-  loginContainer:{
-      alignItems: 'center',
-      justifyContent: 'center',
+  loginContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  formContainer:{
-    backgroundColor:'rgba(40, 75, 99, 0.8);',
+  formContainer: {
+    backgroundColor: 'rgba(40, 75, 99, 0.8);',
     borderRadius: 10,
   },
-  loginButton:{
-    backgroundColor:'orange',
+  loginButton: {
+    backgroundColor: 'orange',
     marginTop: 30,
     marginBottom: 30
   },
-  loginHeader:{
-    color:"white",
-    alignSelf:'center',
-    fontSize:30,
-    marginTop:30,
+  loginHeader: {
+    color: "white",
+    alignSelf: 'center',
+    fontSize: 30,
+    marginTop: 30,
 
   },
-  companyName:{
-    color:"white",
-    alignSelf:'center',
-    fontSize:50,
-    top:-50,
+  companyName: {
+    color: "white",
+    alignSelf: 'center',
+    fontSize: 50,
+    top: -50,
   }
 })

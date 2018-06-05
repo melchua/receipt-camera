@@ -50,7 +50,7 @@ class PhotoPreview extends React.Component {
       }], {
         format: 'png',
         base64: true
-      }
+      } 
     )
     this.setState({
       image: manipResult

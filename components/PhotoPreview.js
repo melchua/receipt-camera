@@ -61,7 +61,7 @@ class PhotoPreview extends React.Component {
 
     AsyncStorage.getItem('jwtToken')
     .then( (result) => {
-      fetch('http://10.30.32.255:8080/images', {
+      fetch('http://10.30.31.122:8080/images', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,12 +71,11 @@ class PhotoPreview extends React.Component {
           id: "2",
           photo: this.state.image
         })
-      });
-    })
+      }) 
     .then((response) => response.json())
     .then((response) => {
       this.setState({visibleModal: null});
-      this.props.navigation.navigate('ReceiptFormModal', {visionResponse:response});
+      this.props.navigation.navigate('ReceiptFormModal', {visionResponse:response})
       console.log(response);
     })
     .catch((error) => {
@@ -84,6 +83,7 @@ class PhotoPreview extends React.Component {
         visibleModal: 2,
       });
     });
+  })
   };
    handlePress = async () => {
       console.log("Inside Handle");

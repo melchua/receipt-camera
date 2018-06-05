@@ -67,7 +67,7 @@ class PhotoPreview extends React.Component {
 
     AsyncStorage.getItem('jwtToken')
       .then((result) => {
-        
+
         fetch('http://10.30.31.122:8080/images', {
             method: 'POST',
             headers: {

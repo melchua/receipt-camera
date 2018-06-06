@@ -44,9 +44,8 @@ class Login extends React.Component {
       .then((response) => {
         AsyncStorage.setItem('jwtToken', response);
         AsyncStorage.getItem('jwtToken').then((value) => {
-          console.log(value == response);
         })
-        // console.log(response);
+
       })
       .catch((error) => {
         console.error("Error is: ", error);

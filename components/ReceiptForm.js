@@ -9,7 +9,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 import {
   Constants
@@ -37,35 +38,63 @@ export default class ReceiptFormModal extends Component {
         category: '',
         location: '',
         user_id: "",
-        project_name: "Lighthouse",
         description: "",
-
-        valid_total: 1,
-        valid_date: 1,
-
       };
   }
   componentWillMount() {
     this.setState({
       total: this.props.navigation.state.params.visionResponse.total.toFixed(2).toString(),
       date: this.props.navigation.state.params.visionResponse.date,
-      id: this.props.navigation.state.params.visionResponse.user_id,
-
+      user_id: this.props.navigation.state.params.visionResponse.user_id,
+      valid_total: true,
+      valid_date: true,
+      catObj: ""
     });
-  }
+    this.setState
+    fetch('http://10.30.31.122:8080/projects', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        let projectsArray = []
+        let stateProjectObj = {}
+        response.forEach(function (project) {
+          let projectObj = {}
+          projectObj["value"] = project.project_name;
+          projectsArray.push(projectObj)
+          stateProjectObj[project.project_name] = project.id
+          });
+          let catObj = {
+            "Food": 1,
+            "Transportation": 2,
+            "Entertainment": 3,
+          }
+        this.setState({
+          projectObj: stateProjectObj,
+          projects: projectsArray,
+          catObj: catObj
+        });
+      })
+      .catch((error) => {
+        console.log("unable to recieve projects", error)
+      });
+  };
 
   _valid_total = (total) => {
     let totalNumber = Number(total)
     if (totalNumber >= 0) {
       this.setState({
-        valid_total: 1
+        valid_total: true
       })
       this.setState({
         total: total
       })
     } else {
       this.setState({
-        valid_total: null
+        valid_total: false
       })
     }
   }
@@ -74,21 +103,21 @@ export default class ReceiptFormModal extends Component {
     date_regex = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/;
     if (date.match(date_regex)) {
       this.setState({
-        valid_date: 1
+        valid_date: true
       })
       this.setState({
         date: date
       })
     } else {
       this.setState({
-        valid_date: null
+        valid_date: false
       })
     }
   }
 
   submitForm = () => {
     if (this.state.valid_total && this.state.valid_date) {
-      fetch('http://10.30.31.122:8080/receipts/submit', {
+      fetch('http://10.30.31.122:8080/user/receipts/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -99,8 +128,8 @@ export default class ReceiptFormModal extends Component {
             total: this.state.total,
             date: this.state.date,
             description: this.state.description,
-            project_id: 1,
-            category_id: 1,
+            project_id: this.state.projectObj[this.state.projectName],
+            category_id: this.state.catObj[this.state.categoryName],
             image_url: "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg"
           })
         })
@@ -131,13 +160,14 @@ export default class ReceiptFormModal extends Component {
     }
   }
   render() {
-      let data = [{
+      let catData = [{
         value: 'Food',
       }, {
-        value: 'Travel',
+        value: 'Transportation',
       }, {
         value: 'Entertainment',
       }];
+     
    return (
 
      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -161,8 +191,14 @@ export default class ReceiptFormModal extends Component {
        <Dropdown
        containerStyle = {{paddingLeft: 20, paddingRight: 20}}
        label='Category'
-       data={data}
-       onChangeText = {(inputCategory) => this.setState({category:inputCategory})}/>
+       data={catData}
+       onChangeText = {(inputCategory) => this.setState({categoryName:inputCategory})}/>
+
+       <Dropdown
+       containerStyle = {{paddingLeft: 20, paddingRight: 20}}
+       label='Project'
+       data={this.state.projects}
+       onChangeText = {(inputProject) => this.setState({projectName:inputProject})}/>
 
        <FormLabel>Location</FormLabel>
        <FormInput

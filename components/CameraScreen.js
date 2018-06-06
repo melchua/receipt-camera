@@ -12,7 +12,8 @@ import {
   View,
   TouchableOpacity,
   Slider,
-  Platform
+  Platform,
+  AsyncStorage
 } from 'react-native';
 import GalleryScreen from '../GalleryScreen';
 
@@ -262,6 +263,18 @@ class CameraScreen extends React.Component {
       </View>
     );
   }
+  logoutButton (){
+    AsyncStorage.removeItem("jwtToken").then(
+      () => {
+        this.props.navigation.navigate('Login')
+      },
+      () => {
+        console.log('rejected')
+      }
+    )
+
+
+  }
 
   renderLandmarksOfFace(face) {
     const renderLandmark = position =>
@@ -327,12 +340,13 @@ class CameraScreen extends React.Component {
       </TouchableOpacity>
     </View>
 
+  
   renderBottomBar = () =>
     <View
       style={styles.bottomBar}>
 
-      <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('Login')}>
-        <Octicons name="squirrel" size={30} color="white"/>
+      <TouchableOpacity style={styles.bottomButton} onPress={this.logoutButton.bind(this)}>
+        <Octicons name="sign-out" size={30} color="white"/>
       </TouchableOpacity>
 
       <View style={{ flex: 0.4 }}>

@@ -35,7 +35,7 @@ export default class Login extends Component {
   };
 
   login = () => {
-    fetch('http://10.30.32.255:8080/users/login', {
+    fetch('http://10.30.31.122:8080/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -48,7 +48,6 @@ export default class Login extends Component {
     .then((response) => response.json())
     .then((response) => {
       AsyncStorage.setItem('jwtToken', response.token)
-      console.log('response stored', response.token)
       this.props.navigation.navigate('Camera')
     })
     .catch((error) => {
@@ -80,6 +79,7 @@ export default class Login extends Component {
             </View>
             <FormLabel>Password</FormLabel>
             <FormInput
+            secureTextEntry={true}
             onChangeText = {(inputLocation) => this.setState({password:inputLocation})}
             />
             
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     display:'flex', 
+    top:150
   },
   loginButton: {
     backgroundColor: 'orange',
@@ -129,7 +130,8 @@ const styles = StyleSheet.create({
     alignSelf: 'auto',
     fontSize: 50,
     alignSelf: 'center',
-    marginTop: 70
+    top: 120,
+    marginBottom:30
 
   }
 })

@@ -55,16 +55,12 @@ class PhotoPreview extends React.Component {
     this.setState({
       image: manipResult
     })
-    console.log("right before upload picture");
     this.uploadPicture();
   }
 
 
 
   uploadPicture = () => {
-    // const jwtToken = AsyncStorage.getItem('jwtToken');
-    // console.log(jwtToken);
-
     AsyncStorage.getItem('jwtToken')
       .then((result) => {
 
@@ -86,7 +82,6 @@ class PhotoPreview extends React.Component {
             this.props.navigation.navigate('ReceiptFormModal', {
               visionResponse: response
             })
-            console.log(response);
           })
           .catch((error) => {
             this.setState({
@@ -96,7 +91,7 @@ class PhotoPreview extends React.Component {
       })
   };
   handlePress = async () => {
-    console.log("Inside Handle");
+
     this.setState({
       visibleModal: 1
     });
@@ -161,7 +156,6 @@ class PhotoPreview extends React.Component {
 
     const {navigation} = this.props;
     const uri = navigation.getParam('uri', 'defaultvalue');
-    console.log("uri: ", uri);
     return (
       <View style={styles.container}>
         <Image

@@ -27,8 +27,8 @@ import {
 import {
   Dropdown
 } from 'react-native-material-dropdown';
-
-
+import moment from 'moment';
+import { LOCALURL } from 'react-native-dotenv'
 export default class ReceiptFormModal extends Component {
   constructor(props) {
     super(props),
@@ -53,7 +53,7 @@ export default class ReceiptFormModal extends Component {
       image_url: this.props.navigation.state.params.visionResponse.image_url
     });
     this.setState
-    fetch('http://10.30.32.255:8080/projects', {
+    fetch(LOCALURL+'/projects', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -102,24 +102,24 @@ export default class ReceiptFormModal extends Component {
   }
 
   _valid_date = (date) => {
-    date_regex = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/;
-    if (date.match(date_regex)) {
+    var newDate = moment(date).format("MM-DD-YY")
+    console.log(newDate)
+    if(newDate !== "Invalid date"){
       this.setState({
-        valid_date: true
-      })
-      this.setState({
+        valid_date: true,
         date: date
       })
-    } else {
+    }else{
       this.setState({
         valid_date: false
       })
     }
+
   }
 
   submitForm = () => {
     if (this.state.valid_total && this.state.valid_date) {
-      fetch('http://10.30.32.255:8080/user/receipts/submit', {
+      fetch('http://10.30.31.122:8080/user/receipts/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -141,7 +141,8 @@ export default class ReceiptFormModal extends Component {
         .catch((error) => {
           console.error(error);
         })
-    } else if (this.state.valid_total === null) {
+    } else if (this.state.valid_total === false) {
+      console.log("triggered invalid total if")
       Alert.alert(
         'Invalid Total',
         'Enter a valid total above zero', [{
@@ -150,7 +151,8 @@ export default class ReceiptFormModal extends Component {
           cancelable: false
         }
       )
-    } else if (this.state.valid_date === null) {
+    } else if (this.state.valid_date === false) {
+      console.log("triggered invalid date if")
       Alert.alert(
         'Invalid Date',
         'Enter a valid date in MM/DD/YY format', [{
@@ -218,7 +220,6 @@ export default class ReceiptFormModal extends Component {
 
        <Button
        large
-       icon={{name: 'squirrel', type: 'octicon', buttonStyle: {backgroundColor: 'black'}}}
        title='SUBMIT'
        buttonStyle={styles.submitButton}
        onPress={this.submitForm.bind(this)}
@@ -228,14 +229,6 @@ export default class ReceiptFormModal extends Component {
 
    );
  }
-
- // _next = () => {
- //   this._totalInput && this._totalInput.focus();
- // };
-
- // _submit = () => {
- //   alert(`Welcome, ${this.state.name}! Confirmation email has been sent to ${this.state.email}`);
- // };
 }
 
 const styles = StyleSheet.create({
@@ -264,7 +257,7 @@ const styles = StyleSheet.create({
    fontSize: 16,
  },
  submitButton: {
-   backgroundColor: "#53B5F6",
+   backgroundColor: "#0ba5a8",
    borderColor: "transparent",
 
  },

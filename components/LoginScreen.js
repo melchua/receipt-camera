@@ -20,6 +20,10 @@ import {
   Font
 } from 'expo';
 
+import {
+  FontAwesome
+  } from '@expo/vector-icons';
+import { LOCALURL } from 'react-native-dotenv'
 
 
 export default class Login extends Component {
@@ -35,7 +39,7 @@ export default class Login extends Component {
   };
 
   login = () => {
-    fetch('http://10.30.32.255:8080/user/login', {
+    fetch(LOCALURL+'/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -66,7 +70,7 @@ export default class Login extends Component {
       return (
 
         <View style={styles.container}>
-        <Text style={styles.companyName}>Paperless</Text>
+        <Text style={styles.companyName}><FontAwesome name='car' size={30} color="black"/>Paperless</Text>
         <View style={styles.loginContainer}>
         </View>
             <View style={styles.formContainer}>
@@ -99,7 +103,7 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2c3e50',
+    backgroundColor: 'white',
     paddingHorizontal: 30,
   },
   loginContainer: {
@@ -107,26 +111,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    backgroundColor: 'rgba(40, 75, 99, 0.8);',
+    backgroundColor: 'rgba(201,201,201,0.5)',
     borderRadius: 10,
     justifyContent: 'center',
     display:'flex',
     top:150
   },
   loginButton: {
-    backgroundColor: 'orange',
+    backgroundColor: 'rgb(9,135,138)',
     marginTop: 30,
     marginBottom: 30
   },
   loginHeader: {
-    color: "white",
+    color: "black",
     alignSelf: 'center',
     fontSize: 30,
     marginTop: 30,
 
   },
   companyName: {
-    color: "white",
+    color: "black",
     alignSelf: 'auto',
     fontSize: 50,
     alignSelf: 'center',

@@ -16,8 +16,7 @@ import {
   Image,
   AsyncStorage
   } from 'react-native';
-
-
+  import { LOCALURL } from 'react-native-dotenv'
   import {
     Ionicons,
     MaterialIcons,
@@ -64,7 +63,7 @@ class PhotoPreview extends React.Component {
     AsyncStorage.getItem('jwtToken')
       .then((result) => {
 
-        fetch('http://10.30.32.255:8080/images', {
+        fetch(LOCALURL+'/images', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -108,10 +107,10 @@ class PhotoPreview extends React.Component {
       <Button
         title="SENDING"
         loading
-        loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
+        loadingProps={{ size: "large", color: "#0ba5a8" }}
         titleStyle={{ fontWeight: "700" }}
         buttonStyle={{
-          backgroundColor: "rgba(106, 226, 198, 1)",
+          backgroundColor: "#0ba5a8",
           width: 300,
           height: 60,
           borderColor: "transparent",

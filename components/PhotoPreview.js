@@ -50,7 +50,7 @@ class PhotoPreview extends React.Component {
       }], {
         format: 'png',
         base64: true
-      } 
+      }
     )
     this.setState({
       image: manipResult
@@ -64,7 +64,7 @@ class PhotoPreview extends React.Component {
     AsyncStorage.getItem('jwtToken')
       .then((result) => {
 
-        fetch('http://10.30.31.122:8080/images', {
+        fetch('http://10.30.32.255:8080/images', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -81,14 +81,14 @@ class PhotoPreview extends React.Component {
             });
             this.props.navigation.navigate('ReceiptFormModal', {
               visionResponse: response
-            })
+            });
           })
           .catch((error) => {
             this.setState({
               visibleModal: 2,
             });
           });
-      })
+      });
   };
   handlePress = async () => {
 

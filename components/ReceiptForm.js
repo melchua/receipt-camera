@@ -39,6 +39,7 @@ export default class ReceiptFormModal extends Component {
         location: '',
         user_id: "",
         description: "",
+        image_url: ""
       };
   }
   componentWillMount() {
@@ -48,10 +49,11 @@ export default class ReceiptFormModal extends Component {
       user_id: this.props.navigation.state.params.visionResponse.user_id,
       valid_total: true,
       valid_date: true,
-      catObj: ""
+      catObj: "",
+      image_url: this.props.navigation.state.params.visionResponse.image_url
     });
     this.setState
-    fetch('http://10.30.31.122:8080/projects', {
+    fetch('http://10.30.32.255:8080/projects', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +119,7 @@ export default class ReceiptFormModal extends Component {
 
   submitForm = () => {
     if (this.state.valid_total && this.state.valid_date) {
-      fetch('http://10.30.31.122:8080/user/receipts/submit', {
+      fetch('http://10.30.32.255:8080/user/receipts/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -130,7 +132,7 @@ export default class ReceiptFormModal extends Component {
             description: this.state.description,
             project_id: this.state.projectObj[this.state.projectName],
             category_id: this.state.catObj[this.state.categoryName],
-            image_url: "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg"
+            image_url: this.state.image_url
           })
         })
         .then((response) => {
@@ -167,7 +169,7 @@ export default class ReceiptFormModal extends Component {
       }, {
         value: 'Entertainment',
       }];
-     
+
    return (
 
      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -187,7 +189,7 @@ export default class ReceiptFormModal extends Component {
        value={this.state.date}
        placeholder={'MM/DD/YYYY'}
        onChangeText = {(inputDate) => this._valid_date(inputDate)}/>
-       
+
        <Dropdown
        containerStyle = {{paddingLeft: 20, paddingRight: 20}}
        label='Category'

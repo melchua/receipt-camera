@@ -35,7 +35,7 @@ export default class Login extends Component {
   };
 
   login = () => {
-    fetch('http://10.30.31.122:8080/user/login', {
+    fetch('http://10.30.32.255:8080/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ export default class Login extends Component {
 
         <View style={styles.container}>
         <Text style={styles.companyName}>Paperless</Text>
-        <View style={styles.loginContainer}>                  
+        <View style={styles.loginContainer}>
         </View>
             <View style={styles.formContainer}>
             <Text style={styles.loginHeader}>Login</Text>
@@ -82,7 +82,7 @@ export default class Login extends Component {
             secureTextEntry={true}
             onChangeText = {(inputLocation) => this.setState({password:inputLocation})}
             />
-            
+
             <Button
             small
             title='SUBMIT'
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(40, 75, 99, 0.8);',
     borderRadius: 10,
     justifyContent: 'center',
-    display:'flex', 
+    display:'flex',
     top:150
   },
   loginButton: {

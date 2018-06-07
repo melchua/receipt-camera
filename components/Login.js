@@ -30,7 +30,7 @@ class Login extends React.Component {
     );
 
     login = () => {
-      fetch('http://10.30.31.122:8080/users/login', {
+      fetch('http://10.30.32.255:8080/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -85,19 +85,19 @@ class FormValidator extends ValidationComponent {
     }];
 
     return(     
-    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-    <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'space-around'}}>
+    <KeyboardAvoidingView behavior="padding">
+    <ScrollView contentContainerStyle={{flex: 0, justifyContent: 'space-around', paddingVertical: 20}}>
 
-     <StatusBar barStyle="light-content" />
+     <StatusBar barStyle="dark-content" />
 
 
-     <FormLabel>Total</FormLabel>
+     <FormLabel labelStyle={{fontSize: 16}}>Total</FormLabel>
      <FormInput
      value={(this.props.total)}
      placeholder={'Please enter your total'}
      onChangeText = {(inputTotal) => this.setState({total:inputTotal})} />
 
-     <FormLabel>Date (MM/DD/YY)</FormLabel>
+     <FormLabel labelStyle={{fontSize: 16}}>Date (MM/DD/YY)</FormLabel>
      <FormInput
      value={this.props.date}
      placeholder={'MM/DD/YYYY'}
@@ -115,19 +115,17 @@ class FormValidator extends ValidationComponent {
      data={this.props.projects}
      onChangeText = {(inputProject) => this.setState({project:inputProject})}/>
 
-     <FormLabel>Location</FormLabel>
+     <FormLabel labelStyle={{fontSize: 16}}>Location</FormLabel>
      <FormInput
      placeholder={'Please enter your location'}
      onChangeText = {(inputLocation) => this.setState({location:inputLocation})}/>
 
      <FormLabel>Description</FormLabel>
      <FormInput
-     multiline = {true}
-     numberOfLines= {4}
      placeholder={'Please enter your Description'}
      onChangeText = {(inputDescription) => this.setState({description:inputDescription})}/>
 
-    </ScrollView>
+
 
      <Button
      large
@@ -135,7 +133,7 @@ class FormValidator extends ValidationComponent {
      buttonStyle={styles.submitButton}
      onPress={this._onSubmit.bind(this)}
      />
-
+     </ScrollView>
    </KeyboardAvoidingView>)
   }
   
@@ -143,13 +141,13 @@ class FormValidator extends ValidationComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: 'white',
     justifyContent: 'space-around',
   },
   header: {
     paddingTop: 20 + Constants.statusBarHeight,
     padding: 20,
-    backgroundColor: '#336699',
+    backgroundColor: 'white',
   },
   description: {
     fontSize: 14,
@@ -168,7 +166,15 @@ const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "#0ba5a8",
     borderColor: "transparent",
-
+    margin: 20,
+    shadowColor: 'silver',
+    shadowOffset: {
+       width: 0,
+       height: 5
+     },
+     shadowRadius: 10,
+     shadowOpacity: 1.0
   },
-});
+ });
+ 
 export default FormValidator;

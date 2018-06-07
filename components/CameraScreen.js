@@ -8,6 +8,7 @@ import React from 'react';
 import {
   Alert,
   StyleSheet,
+  StatusBar,
   Text,
   View,
   TouchableOpacity,
@@ -340,7 +341,7 @@ class CameraScreen extends React.Component {
       </TouchableOpacity>
     </View>
 
-  
+
   renderBottomBar = () =>
     <View
       style={styles.bottomBar}>
@@ -415,6 +416,7 @@ class CameraScreen extends React.Component {
           onFaceDetectionError={this.onFaceDetectionError}
           onBarCodeRead={this.state.barcodeScanning ? this.onBarCodeRead : undefined}
           >
+          <StatusBar barStyle="light-content" />
           {this.renderTopBar()}
           {this.renderBottomBar()}
         </Camera>

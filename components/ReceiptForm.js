@@ -22,7 +22,6 @@ import {
   FormInput,
   FormValidationMessage,
   Button,
-
 } from 'react-native-elements';
 import {
   Dropdown
@@ -123,5 +122,4 @@ export default class ReceiptFormModal extends React.Component {
    );
  }
 }
-
 

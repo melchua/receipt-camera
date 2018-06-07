@@ -44,23 +44,25 @@ class FormValidator extends ValidationComponent {
   _onSubmit() {
     console.log(this.state.location)
     let errorArr = []
-    if (this.state.location === undefined) {
-      errorArr.push("Please insert a valid location")
-    }
-
-    if (this.state.category === undefined) {
-      errorArr.push("Please insert a valid category")
-    }
-
-    if (this.state.description === undefined) {
-      errorArr.push("Please insert a valid description")
-    }
     if ((this.state.total < 0) || (isNaN(this.state.total))) {
-      errorArr.push("Please insert a valid total")
-    }
+      errorArr.push(" total")
+     }
     if (!moment(this.state.date, "MM-DD-YY").isValid()) {
-      errorArr.push("Please instert a valid date")
+      errorArr.push(" date")
     }
+    if (this.state.category === undefined) {
+      errorArr.push(" project")
+    }
+    if (this.state.category === undefined) {
+      errorArr.push(" category")
+    }
+    if (this.state.location === undefined) {
+      errorArr.push(" location")
+    }
+    if (this.state.description === undefined) {
+      errorArr.push(" description")
+    }
+
     console.log(errorArr)
     if (errorArr.length === 0) {
       this.props.isValid({
@@ -71,7 +73,14 @@ class FormValidator extends ValidationComponent {
         project: this.state.project,
         category: this.state.category
       })
-
+    } else{
+      Alert.alert(
+        'Invalid Entry',
+        `Please insert a valid${errorArr}.`,
+        [
+          {text: 'OK'},
+        ]
+      )
     }
   }
 

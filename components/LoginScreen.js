@@ -5,6 +5,7 @@ import {
   Alert,
   AppRegistry,
   AsyncStorage,
+  StatusBar,
   StyleSheet,
   Text,
   View
@@ -21,7 +22,7 @@ import {
 } from 'expo';
 
 import {
-  FontAwesome
+  MaterialIcons
   } from '@expo/vector-icons';
 import { LOCALURL } from 'react-native-dotenv'
 
@@ -70,9 +71,10 @@ export default class Login extends Component {
       return (
 
         <View style={styles.container}>
-        <Text style={styles.companyName}><FontAwesome name='car' size={30} color="black"/>Paperless</Text>
+        <Text style={styles.companyName}><MaterialIcons name='receipt' size={40} color="black"/> Paperless</Text>
         <View style={styles.loginContainer}>
         </View>
+            <StatusBar barStyle="dark-content" />
             <View style={styles.formContainer}>
             <Text style={styles.loginHeader}>Login</Text>
             <FormLabel>Email</FormLabel>

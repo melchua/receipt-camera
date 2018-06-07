@@ -14,7 +14,8 @@ import {
   Slider,
   Platform,
   Image,
-  AsyncStorage
+  AsyncStorage,
+  StatusBar
   } from 'react-native';
   import { LOCALURL } from 'react-native-dotenv'
   import {
@@ -157,11 +158,12 @@ class PhotoPreview extends React.Component {
     const uri = navigation.getParam('uri', 'defaultvalue');
     return (
       <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
         <Image
           style={styles.pictures}
           source={ {uri: uri} }
         />
-      <View style={styles.bottomBar}>
+                      <View style={styles.bottomBar}>
           <TouchableOpacity style={styles.bottomButtonRight}  onPress={() => this.props.navigation.navigate('Camera')}>
             <Octicons name="triangle-left" size={30} color="white"/>
           </TouchableOpacity>
@@ -171,7 +173,6 @@ class PhotoPreview extends React.Component {
           </TouchableOpacity>
 
         </View>
-
         <Modal isVisible={this.state.visibleModal !== null} onBackdropPress={() => this._onBackgroundPress(this.state.visibleModal)} >
           {this._checkDisplayState(this.state.visibleModal)}
         }
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignSelf: 'flex-end',
     justifyContent: 'space-between',
-    flex: 0.13,
+    flex: 0.1,
     flexDirection: 'row',
   },
   mod_container: {

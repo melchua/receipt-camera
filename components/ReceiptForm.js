@@ -22,7 +22,6 @@ import {
   FormInput,
   FormValidationMessage,
   Button,
-
 } from 'react-native-elements';
 import {
   Dropdown
@@ -174,17 +173,15 @@ export default class ReceiptFormModal extends Component {
 
    return (
 
-     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-      <ScrollView contentContainerStyle={{flex: 1, justifyContent: 'space-around'}}>
+      <ScrollView contentContainerStyle={{flex: 0, justifyContent: 'space-around', paddingVertical: 20}}>
 
-       <StatusBar barStyle="light-content" />
-
+       <StatusBar barStyle="dark-content" />
 
        <FormLabel>Total</FormLabel>
        <FormInput
        value={(this.state.total)}
        placeholder={'Please enter your total'}
-       onChangeText = {(inputTotal) => this._valid_total(inputTotal)} />
+       onChangeText = {(inputTotal) => this._valid_total(inputTotal)}/>
 
        <FormLabel>Date (MM/DD/YY)</FormLabel>
        <FormInput
@@ -211,12 +208,9 @@ export default class ReceiptFormModal extends Component {
 
        <FormLabel>Description</FormLabel>
        <FormInput
-       multiline = {true}
-       numberOfLines= {4}
        placeholder={'Please enter your Description'}
        onChangeText = {(inputDescription) => this.setState({description:inputDescription})}/>
 
-      </ScrollView>
 
        <Button
        large
@@ -225,8 +219,7 @@ export default class ReceiptFormModal extends Component {
        onPress={this.submitForm.bind(this)}
        />
 
-     </KeyboardAvoidingView>
-
+      </ScrollView>
    );
  }
 }
@@ -259,6 +252,6 @@ const styles = StyleSheet.create({
  submitButton: {
    backgroundColor: "#0ba5a8",
    borderColor: "transparent",
-
+   margin: 20,
  },
 });

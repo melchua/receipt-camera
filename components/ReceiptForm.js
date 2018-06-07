@@ -103,22 +103,74 @@ export default class ReceiptFormModal extends Component {
 
   _valid_date = (date) => {
     var newDate = moment(date).format("MM-DD-YY")
-    console.log(newDate)
-    if(newDate !== "Invalid date"){
+    if (newDate !== "Invalid date") {
       this.setState({
         valid_date: true,
         date: date
       })
-    }else{
+    } else {
       this.setState({
         valid_date: false
       })
     }
+  }
 
+  _valid_category = (categoryName) =>{
+    if(categoryName){
+      this.setState({
+        valid_category: true,
+        categoryName: categoryName
+      })
+    } else {
+      this.setState({
+        valid_category: false,
+      })
+    }
+  }
+
+  _valid_project = (projectName) =>{
+    if(projectName){
+      this.setState({
+        valid_project: true,
+        projectName: projectName
+      })
+    } else {
+      this.setState({
+        valid_project: false,
+      })
+    }
+  }
+
+  _valid_location = (location) =>{
+    if(location){
+      this.setState({
+        valid_location: true,
+        location: location
+      })
+    } else {
+      this.setState({
+        valid_location: false,
+      })
+    }
+  }
+
+  _valid_description = (description) =>{
+    if(description){
+      this.setState({
+        valid_description: true,
+        description: description
+      })
+    } else {
+      this.setState({
+        valid_description: false,
+      })
+    }
   }
 
   submitForm = () => {
-    if (this.state.valid_total && this.state.valid_date) {
+    if (this.state.valid_total && this.state.valid_date && 
+      this.state.valid_category && this.state.valid_project 
+      && this.state.valid_location && this.state.valid_description) {
       fetch('http://10.30.31.122:8080/user/receipts/submit', {
           method: 'POST',
           headers: {
@@ -152,7 +204,6 @@ export default class ReceiptFormModal extends Component {
         }
       )
     } else if (this.state.valid_date === false) {
-      console.log("triggered invalid date if")
       Alert.alert(
         'Invalid Date',
         'Enter a valid date in MM/DD/YY format', [{
@@ -161,7 +212,43 @@ export default class ReceiptFormModal extends Component {
           cancelable: false
         }
       )
-    }
+    } else if (this.state.valid_category === false) {
+      Alert.alert(
+        'Invalid Category',
+        'Please pick a category', [{
+          text: 'OK'
+        }, ], {
+          cancelable: false
+        }
+      )
+    } else if (this.state.valid_project === false) {
+      Alert.alert(
+        'Invalid Project',
+        'Please pick a project', [{
+          text: 'OK'
+        }, ], {
+          cancelable: false
+        }
+      )
+    } else if (this.state.valid_location === false) {
+      Alert.alert(
+        'Invalid Location',
+        'Please pick a location', [{
+          text: 'OK'
+        }, ], {
+          cancelable: false
+        }
+      )
+    } else if (this.state.valid_description === false) {
+      Alert.alert(
+        'Invalid Description',
+        'Please pick a description', [{
+          text: 'OK'
+        }, ], {
+          cancelable: false
+        }
+      )
+    }    
   }
   render() {
       let catData = [{
@@ -196,25 +283,25 @@ export default class ReceiptFormModal extends Component {
        containerStyle = {{paddingLeft: 20, paddingRight: 20}}
        label='Category'
        data={catData}
-       onChangeText = {(inputCategory) => this.setState({categoryName:inputCategory})}/>
+       onChangeText = {(inputCategory) => this._valid_category(inputCategory)}/>
 
        <Dropdown
        containerStyle = {{paddingLeft: 20, paddingRight: 20}}
        label='Project'
        data={this.state.projects}
-       onChangeText = {(inputProject) => this.setState({projectName:inputProject})}/>
+       onChangeText = {(inputProject) => this._valid_project(inputProject)}/>
 
        <FormLabel>Location</FormLabel>
        <FormInput
        placeholder={'Please enter your location'}
-       onChangeText = {(inputLocation) => this.setState({location:inputLocation})}/>
+       onChangeText = {(inputLocation) => this._valid_location(inputLocation)}/>
 
        <FormLabel>Description</FormLabel>
        <FormInput
        multiline = {true}
        numberOfLines= {4}
        placeholder={'Please enter your Description'}
-       onChangeText = {(inputDescription) => this.setState({description:inputDescription})}/>
+       onChangeText = {(inputDescription) => this._valid_description(inputDescription)}/>
 
       </ScrollView>
 

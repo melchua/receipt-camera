@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   Slider,
   Platform,
-  Image,
+  ImageBackground,
   AsyncStorage,
   StatusBar
   } from 'react-native';
@@ -158,21 +158,20 @@ class PhotoPreview extends React.Component {
     const uri = navigation.getParam('uri', 'defaultvalue');
     return (
       <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-        <Image
+      <StatusBar barStyle="light-content" />
+        <ImageBackground
           style={styles.pictures}
           source={ {uri: uri} }
-        />
-                      <View style={styles.bottomBar}>
-          <TouchableOpacity style={styles.bottomButtonRight}  onPress={() => this.props.navigation.navigate('Camera')}>
-            <Octicons name="triangle-left" size={30} color="white"/>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.bottomButtonLeft}  onPress={this.handlePress.bind(this)} >
-              <Octicons name="triangle-right" size={30} color="white"/>
-          </TouchableOpacity>
-
-        </View>
+        >
+          <View style={styles.bottomBar}>
+            <TouchableOpacity style={styles.bottomButtonRight}  onPress={() => this.props.navigation.navigate('Camera')}>
+              <Ionicons name="md-camera" size={45} color="white"/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.bottomButtonLeft}  onPress={this.handlePress.bind(this)} >
+              <Ionicons name="md-send" size={45} color="white"/>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
         <Modal isVisible={this.state.visibleModal !== null} onBackdropPress={() => this._onBackgroundPress(this.state.visibleModal)} >
           {this._checkDisplayState(this.state.visibleModal)}
         }
@@ -220,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignSelf: 'flex-end',
     justifyContent: 'space-between',
-    flex: 0.1,
+    flex: 1,
     flexDirection: 'row',
   },
   mod_container: {

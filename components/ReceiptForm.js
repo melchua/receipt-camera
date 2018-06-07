@@ -167,8 +167,8 @@ export default class ReceiptFormModal extends Component {
   }
 
   submitForm = () => {
-    if (this.state.valid_total && this.state.valid_date && 
-      this.state.valid_category && this.state.valid_project 
+    if (this.state.valid_total && this.state.valid_date &&
+      this.state.valid_category && this.state.valid_project
       && this.state.valid_location && this.state.valid_description) {
       fetch('http://10.30.31.122:8080/user/receipts/submit', {
           method: 'POST',
@@ -247,7 +247,7 @@ export default class ReceiptFormModal extends Component {
           cancelable: false
         }
       )
-    }    
+    }
   }
   render() {
       let catData = [{
@@ -260,17 +260,20 @@ export default class ReceiptFormModal extends Component {
 
    return (
 
+    <KeyboardAvoidingView
+      behavior="padding"
+    >
       <ScrollView contentContainerStyle={{flex: 0, justifyContent: 'space-around', paddingVertical: 20}}>
 
-       <StatusBar barStyle="dark-content" />
+       <StatusBar barStyle="dark-content"/>
 
-       <FormLabel>Total</FormLabel>
+       <FormLabel labelStyle={{fontSize: 16}}>Total</FormLabel>
        <FormInput
        value={(this.state.total)}
        placeholder={'Please enter your total'}
        onChangeText = {(inputTotal) => this._valid_total(inputTotal)}/>
 
-       <FormLabel>Date (MM/DD/YY)</FormLabel>
+       <FormLabel labelStyle={{fontSize: 16}}>Date (MM/DD/YY)</FormLabel>
        <FormInput
        value={this.state.date}
        placeholder={'MM/DD/YYYY'}
@@ -288,12 +291,12 @@ export default class ReceiptFormModal extends Component {
        data={this.state.projects}
        onChangeText = {(inputProject) => this._valid_project(inputProject)}/>
 
-       <FormLabel>Location</FormLabel>
+       <FormLabel labelStyle={{fontSize: 16}}>Location</FormLabel>
        <FormInput
        placeholder={'Please enter your location'}
        onChangeText = {(inputLocation) => this._valid_location(inputLocation)}/>
 
-       <FormLabel>Description</FormLabel>
+       <FormLabel labelStyle={{fontSize: 16}}>Description</FormLabel>
        <FormInput
        placeholder={'Please enter your Description'}
        onChangeText = {(inputDescription) => this._valid_description(inputDescription)}/>
@@ -307,6 +310,7 @@ export default class ReceiptFormModal extends Component {
        />
 
       </ScrollView>
+    </KeyboardAvoidingView>
    );
  }
 }
@@ -314,13 +318,13 @@ export default class ReceiptFormModal extends Component {
 const styles = StyleSheet.create({
  container: {
    flex: 1,
-   backgroundColor: '#ecf0f1',
+   backgroundColor: 'white',
    justifyContent: 'space-around',
  },
  header: {
    paddingTop: 20 + Constants.statusBarHeight,
    padding: 20,
-   backgroundColor: '#336699',
+   backgroundColor: 'white',
  },
  description: {
    fontSize: 14,
@@ -340,5 +344,12 @@ const styles = StyleSheet.create({
    backgroundColor: "#0ba5a8",
    borderColor: "transparent",
    margin: 20,
+   shadowColor: 'silver',
+   shadowOffset: {
+      width: 0,
+      height: 5
+    },
+    shadowRadius: 10,
+    shadowOpacity: 1.0
  },
 });

@@ -117,19 +117,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     display:'flex',
-    top:150
+    top:150,
   },
   loginButton: {
     backgroundColor: 'rgb(9,135,138)',
     marginTop: 30,
-    marginBottom: 30
+    marginBottom: 30,
+    shadowColor: 'silver',
+    shadowOffset: {
+      width: 0,
+      height: 5
+    },
+    shadowRadius: 10,
+    shadowOpacity: 1.0
   },
   loginHeader: {
     color: "black",
     alignSelf: 'center',
     fontSize: 30,
     marginTop: 30,
-
   },
   companyName: {
     color: "black",

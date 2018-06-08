@@ -75,7 +75,7 @@ class FormValidator extends ValidationComponent {
         date: this.state.date,
         location: this.state.location,
         description: this.state.description,
-        project: this.state.project,
+        project: this.props.projectObj[this.state.project],
         category: catObj[this.state.category]
       })
     } else{

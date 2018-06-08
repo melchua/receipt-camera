@@ -40,8 +40,9 @@ class FormValidator extends ValidationComponent {
       projectList: this.props.projects,
     };
   }
-
+  
   _onSubmit() {
+    console.log(this.props)
     console.log(this.state.location)
     let errorArr = []
     if ((this.state.total < 0) || (isNaN(this.state.total))) {
@@ -62,12 +63,13 @@ class FormValidator extends ValidationComponent {
     if (this.state.description === undefined) {
       errorArr.push(" description")
     }
-    let catObj = {
-      "Food": 1,
-      "Transportation": 2,
-      "Entertainment": 3,
-    }
+
     if (errorArr.length === 0) {
+      let catObj = {
+        "Food": 1,
+        "Transportation": 2,
+        "Entertainment": 3,
+      }
       this.props.isValid({
         total: this.state.total,
         date: this.state.date,

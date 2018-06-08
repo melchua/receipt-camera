@@ -84,8 +84,7 @@ export default class ReceiptFormModal extends React.Component {
   };
 
   _isValid = (data) =>{
-
-      fetch('http://10.30.31.122:8080/user/receipts/submit', {
+      fetch(LOCALURL + '/user/receipts/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -117,6 +116,7 @@ export default class ReceiptFormModal extends React.Component {
       date = {this.state.date}
       projects = {this.state.projects}
       isValid = {this._isValid}
+      projectObj = {this.state.projectObj}
       />
 
    );

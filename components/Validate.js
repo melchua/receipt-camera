@@ -62,8 +62,11 @@ class FormValidator extends ValidationComponent {
     if (this.state.description === undefined) {
       errorArr.push(" description")
     }
-
-    console.log(errorArr)
+    let catObj = {
+      "Food": 1,
+      "Transportation": 2,
+      "Entertainment": 3,
+    }
     if (errorArr.length === 0) {
       this.props.isValid({
         total: this.state.total,
@@ -71,7 +74,7 @@ class FormValidator extends ValidationComponent {
         location: this.state.location,
         description: this.state.description,
         project: this.state.project,
-        category: this.state.category
+        category: catObj[this.state.category]
       })
     } else{
       Alert.alert(

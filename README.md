@@ -1,11 +1,13 @@
-# Paperless Receipt: IOS Camera/Web App
+# Paperless Receipt: iOS Camera/Web App
 ### An App to Make Employee Expense Reports Easier!
 
-Paperless is a mobile application that let employees scan and send business expense receipts directly to their admin department. The app uses Google Vision and some backend logic to auto-magically parse out the important receipt information such as total and date. This information is easily accessed by both employees and admins from an easy to use web-interface. 
+Paperless is a mobile application that let employees scan and send business expense receipts directly to their admin department. The app uses OCR capabilities of Google Vision and some backend logic to auto-magically parse out the important receipt information such as total and date. This information is easily accessed by both employees and admins from an easy to use web-interface. 
 
-**Related links: **
-- Web Server
-- Express Server
+[iOS Client](https://github.com/melchua/receipt-camera)
+
+[Web Client](https://github.com/billywoo17/receipt-reader-web)
+
+[Express Server](https://github.com/samsamkim/server-receipt)
 
 
 ## Motivation
@@ -15,14 +17,12 @@ Through this we learned teamwork, as well as how to work in an Agile / Kanban st
 
 
 ## Screenshots
-Include logo/demo screenshot etc.
 
-Tech/framework used
-Ex. -
+(pending)
 
 ## Built with
 
-**IOS**
+**iOS**
 
 - React Native
 - Node.js
@@ -37,12 +37,13 @@ Ex. -
 **Back-end Server**
 
 - Postgresql/Knex
-- Express/Node.JS
+- Express/Node.JS  
+- API: AWS S3, Google Cloud (Vision)
 
 
 ## Installation
 
-### IOS App
+### iOS App
 
 Fork and Clone
 
@@ -69,7 +70,7 @@ Run
 npm start
 ```
 
-### Front-end Server
+### Front-end Client
 
 Fork and Clone
 
@@ -77,11 +78,16 @@ Fork and Clone
 > git clone git@github.com:[yourusername]/receipt-reader-web.git
 > npm install
 ```
+Run
 
+```
+npm start
+```
 
 ### Back-end Server
 
 Fork and Clone
+
 ```
 > git clone git@github.com:[yourusername]/server-receipt.git
 > npm install
@@ -98,13 +104,50 @@ Setup Database (you must have PSQL installed and setup)
 
 ```
 
+## Configuration
 
-## API Reference
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+### iOS App
+
+In your root directory: 
+
+``` 
+> touch .env
+> vim .env
+>  LOCALURL=http://[your-local-ip]:8080
+```
+
+### Front-end Client
+
+``` 
+> vim package.json
+> "proxy": "http://192.168.1.104:8080"
+```
+
+### Back-end Server
+
+1. Apply for an AWS S3 account
+2. Apply for a Google Cloud account and enable the Vision API
+3. Store your Google Vision JSON key in your root directory and rename it as "google_vision_key.json"
+
+```
+> touch .env
+
+DB_HOST=localhost
+DB_USER=bsms
+DB_PASS=bsms
+DB_NAME=final
+DB_SSL=true if heroku
+DB_PORT=5432
+GOOGLE_APPLICATION_CREDENTIALS = "./google_vision_key.json"
+AWS_ACCESS_KEY_ID = [add your aws access key id]
+AWS_SECRET_ACCESS_KEY = [add your aws secret access key]
+```
 
 
 ## How to use?
-If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
+
+Both the Front-end Web Client and the iOS app operate independently of each other. You will however need to have the Back-end Server up and running in order to use either of these products. 
+
 
 
 ## Team
@@ -112,4 +155,5 @@ If people like your project they’ll want to learn how they can use it. To do s
 | Bill | Mel | Sam | Stephen |
 |------|-----|-----|---------|
 | img  | img | img | img     |
+
 

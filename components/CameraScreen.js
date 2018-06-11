@@ -358,10 +358,9 @@ class CameraScreen extends React.Component {
           <Ionicons name="ios-radio-button-on" size={70} color="white" />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.bottomButton} onPress={this.toggleView}>
+      <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('ReceiptScreen')}>
         <View>
           <Foundation name="thumbnails" size={30} color="white" />
-          {this.state.newPhotos && <View style={styles.newPhotosDot}/>}
         </View>
       </TouchableOpacity>
     </View>

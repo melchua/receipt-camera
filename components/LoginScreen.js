@@ -20,7 +20,7 @@ export default class Login extends Component {
 
   login = () => {
     console.log("WHAT? ", LOCALURL);
-    fetch(LOCALURL+'/user/login', {
+    fetch("http://172.20.10.10:8080"+'/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

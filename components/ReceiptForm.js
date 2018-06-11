@@ -57,19 +57,20 @@ export default class ReceiptFormModal extends React.Component {
       })
       .then((response) => response.json())
       .then((response) => {
-        let projectsArray = []
-        let stateProjectObj = {}
+        console.log("response for projects: ", response);
+        let projectsArray = [];
+        let stateProjectObj = {};
         response.forEach(function (project) {
-          let projectObj = {}
+          let projectObj = {};
           projectObj["value"] = project.project_name;
-          projectsArray.push(projectObj)
-          stateProjectObj[project.project_name] = project.id
+          projectsArray.push(projectObj);
+          stateProjectObj[project.project_name] = project.id;
         });
         let catObj = {
           "Food": 1,
           "Transportation": 2,
           "Entertainment": 3,
-        }
+        };
         this.setState({
           projectObj: stateProjectObj,
           projects: projectsArray,
@@ -77,9 +78,9 @@ export default class ReceiptFormModal extends React.Component {
         });
       })
       .catch((error) => {
-        console.log("unable to recieve projects", error)
+        console.error("unable to receive projects", error);
       });
-  };
+  }
 
   _isValid = (data) =>{
       fetch(LOCALURL + '/user/receipts/submit', {

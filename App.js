@@ -18,6 +18,7 @@ import CameraScreen from './components/CameraScreen';
 import PhotoPreview from './components/PhotoPreview';
 import GalleryScreen from './GalleryScreen';
 import FormModalScreen from './components/FormModalScreen';
+import ReceiptScreen from './components/ReceiptScreen';
 
 import LoginScreen from './components/LoginScreen';
 
@@ -28,6 +29,7 @@ const MainStack = createStackNavigator({
   Preview: PhotoPreview,
   Gallery: GalleryScreen,
   Login: LoginScreen,
+  ReceiptScreen: ReceiptScreen
 }, {
   initialRouteName: 'Login',
 });

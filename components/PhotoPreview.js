@@ -63,7 +63,8 @@ class PhotoPreview extends React.Component {
   uploadPicture = () => {
     AsyncStorage.getItem('jwtToken')
       .then((result) => {
-
+        console.log("Upload pic (starting fetch)");
+        console.log("LOCALURL: ", LOCALURL);
         fetch(LOCALURL+'/images', {
             method: 'POST',
             headers: {

@@ -1,10 +1,10 @@
 import React from 'react';
 import {AsyncStorage, Text, StatusBar, View, ScrollView} from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, Icon } from 'react-native-elements';
 import {LOCALURL} from 'react-native-dotenv';
 // import Moment from 'react-moment';
 import moment from 'moment';
-
+import { FontAwesome } from '@expo/vector-icons';
 
 const list = [
   {
@@ -45,7 +45,6 @@ export default class ReceiptScreen extends React.Component {
           })
           .then(res => res.json())
           .then(results => {
-            console.log("RESULTS REceipts:", results.receipts);
             let receipts = results.receipts;
             console.log("RECEIPTS: ", receipts);
             this.setState({
@@ -60,6 +59,16 @@ export default class ReceiptScreen extends React.Component {
   render() {
     const date = new Date();
     const formattedDate = moment(date).format("LLL");
+    const statusObj = {
+      1:"ellipsis-h",
+      2:"check-circle",
+      3:"exclamation-triangle",
+    }
+    const statusColor ={
+      1:"#FFCC00",
+      2:"green",
+      3:"red"
+    }
     return (
       <ScrollView>
         <StatusBar barStyle="dark-content" />
@@ -68,8 +77,9 @@ export default class ReceiptScreen extends React.Component {
           this.state.receipts.map((l, i) => (
           <ListItem
             key={i}
-            title= {`$${parseFloat(l.total/100).toFixed(2)} `}
-            subtitle={l.location}
+            title= {`$${parseFloat(l.total/100).toFixed(2)}`}
+            subtitle={`${l.location}`}
+            leftIcon = {<Icon type="font-awesome" name ={statusObj[l.status_id]} color={statusColor[l.status_id]} iconStyle={{paddingRight:10}}/>} 
             rightTitle={moment(l.date).format("MM/DD/YYYY")}
           />
           ))

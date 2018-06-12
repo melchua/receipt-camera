@@ -27,9 +27,7 @@ import {
   Dropdown
 } from 'react-native-material-dropdown';
 
-import {
-  LOCALURL
-} from 'react-native-dotenv'
+import {LOCALURL} from 'react-native-dotenv';
 import FormValidator from './Validate';
 
 
@@ -58,13 +56,15 @@ export default class ReceiptFormModal extends React.Component {
       })
       .then((response) => response.json())
       .then((response) => {
-        let projectsArray = []
-        let stateProjectObj = {}
+        console.log("ReceiptForm LOCALURL: ", LOCALURL);
+        console.log("response for projects: ", response);
+        let projectsArray = [];
+        let stateProjectObj = {};
         response.forEach(function (project) {
-          let projectObj = {}
+          let projectObj = {};
           projectObj["value"] = project.project_name;
-          projectsArray.push(projectObj)
-          stateProjectObj[project.project_name] = project.id
+          projectsArray.push(projectObj);
+          stateProjectObj[project.project_name] = project.id;
         });
         this.setState({
           projectObj: stateProjectObj,

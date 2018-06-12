@@ -1,30 +1,9 @@
-import React, {
-  Component
-} from 'react';
-import {
-  Alert,
-  AppRegistry,
-  AsyncStorage,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import {
-  FormLabel,
-  FormInput,
-  FormValidationMessage,
-  Icon,
-  Button
-} from 'react-native-elements'
-import {
-  Font
-} from 'expo';
-
-import {
-  MaterialIcons
-  } from '@expo/vector-icons';
-import { LOCALURL } from 'react-native-dotenv'
+import React, { Component } from 'react';
+import { Alert, AppRegistry, AsyncStorage, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage, Icon, Button } from 'react-native-elements';
+import { Font } from 'expo';
+import { MaterialIcons } from '@expo/vector-icons';
+import { LOCALURL } from 'react-native-dotenv';
 
 
 export default class Login extends Component {
@@ -40,6 +19,7 @@ export default class Login extends Component {
   };
 
   login = () => {
+    console.log("WHAT? ", LOCALURL);
     fetch(LOCALURL+'/user/login', {
       method: 'POST',
       headers: {

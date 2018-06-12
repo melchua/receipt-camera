@@ -37,13 +37,10 @@ class FormValidator extends ValidationComponent {
     this.state = {
       total: this.props.total,
       date: this.props.date,
-      projectList: this.props.projects,
     };
   }
   
   _onSubmit() {
-    console.log(this.props)
-    console.log(this.state.location)
     let errorArr = []
     if ((this.state.total < 0) || (isNaN(this.state.total))) {
       errorArr.push(" total")
@@ -51,32 +48,27 @@ class FormValidator extends ValidationComponent {
     if (!moment(this.state.date, "MM-DD-YY").isValid()) {
       errorArr.push(" date")
     }
-    if (this.state.category === undefined) {
+    if (this.state.project === undefined || this.state.project.length === 0) {
       errorArr.push(" project")
     }
-    if (this.state.category === undefined) {
+    if (this.state.category === undefined || this.state.category.length === 0) {
       errorArr.push(" category")
     }
-    if (this.state.location === undefined) {
+    if (this.state.location === undefined || this.state.location.length === 0) {
       errorArr.push(" location")
     }
-    if (this.state.description === undefined) {
+    if (this.state.description === undefined || this.state.description.length === 0) {
       errorArr.push(" description")
     }
 
     if (errorArr.length === 0) {
-      let catObj = {
-        "Food": 1,
-        "Transportation": 2,
-        "Entertainment": 3,
-      }
       this.props.isValid({
         total: this.state.total,
         date: this.state.date,
         location: this.state.location,
         description: this.state.description,
         project: this.props.projectObj[this.state.project],
-        category: catObj[this.state.category]
+        category: this.props.catObj[this.state.category]
       })
     } else{
       Alert.alert(
@@ -88,15 +80,13 @@ class FormValidator extends ValidationComponent {
       )
     }
   }
-
   render(){
-    let catData = [{
-      value: 'Food',
-    }, {
-      value: 'Transportation',
-    }, {
-      value: 'Entertainment',
-    }];
+    let catData = []
+    for (let key in this.props.catObj) {
+      catData.push({
+        value: key
+      })
+    }
 
     return(     
     <KeyboardAvoidingView behavior="padding">

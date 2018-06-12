@@ -1,3 +1,4 @@
+import { LOCALURL } from 'react-native-dotenv';
 import { Constants, Camera, FileSystem, Permissions, ImageManipulator } from 'expo';
 import React from 'react';
 import Modal from 'react-native-modal';
@@ -17,15 +18,7 @@ import {
   AsyncStorage,
   StatusBar
   } from 'react-native';
-  import { LOCALURL } from 'react-native-dotenv';
-  import {
-    Ionicons,
-    MaterialIcons,
-    Foundation,
-    MaterialCommunityIcons,
-    Octicons
-    } from '@expo/vector-icons';
-
+import {Ionicons, MaterialIcons, Foundation, MaterialCommunityIcons, Octicons} from '@expo/vector-icons';
 import { Dialog } from 'react-native-simple-dialogs';
 import ReceiptFormModal from './ReceiptForm.js';
 import { Button } from 'react-native-elements';
@@ -63,7 +56,8 @@ class PhotoPreview extends React.Component {
   uploadPicture = () => {
     AsyncStorage.getItem('jwtToken')
       .then((result) => {
-
+        console.log("Upload pic (starting fetch)");
+        console.log("LOCALURL: ", LOCALURL);
         fetch(LOCALURL+'/images', {
             method: 'POST',
             headers: {

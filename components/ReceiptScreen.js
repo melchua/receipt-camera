@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsyncStorage, Text, StatusBar, View} from 'react-native';
+import {AsyncStorage, Text, StatusBar, View, ScrollView} from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import {LOCALURL} from 'react-native-dotenv';
 // import Moment from 'react-moment';
@@ -61,7 +61,7 @@ export default class ReceiptScreen extends React.Component {
     const date = new Date();
     const formattedDate = moment(date).format("LLL");
     return (
-      <View>
+      <ScrollView>
         <StatusBar barStyle="dark-content" />
         <List containerStyle={{marginBottom: 20}}>
         {
@@ -75,7 +75,7 @@ export default class ReceiptScreen extends React.Component {
           ))
         }
         </List>
-      </View>
+      </ScrollView>
     )
   }
 }

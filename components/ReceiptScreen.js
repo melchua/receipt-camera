@@ -1,8 +1,10 @@
 import React from 'react';
-import {AsyncStorage, Text} from 'react-native';
+import {AsyncStorage, Text, StatusBar, View} from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import {LOCALURL} from 'react-native-dotenv';
-import Moment from 'react-moment';
+// import Moment from 'react-moment';
+import moment from 'moment';
+
 
 const list = [
   {
@@ -55,21 +57,28 @@ export default class ReceiptScreen extends React.Component {
           })
       });
   }
-
   render() {
+    const date = new Date();
+    const formattedDate = moment(date).format("LLL");
     return (
-      <List containerStyle={{marginBottom: 20}}>
-      {
-        this.state.receipts.map((l, i) => (
-        <ListItem
-          key={i}
-          title= {`$${parseFloat(l.total/100).toFixed(2)} `}
-          subtitle={l.location}
-          rightTitle={<Moment format="DD/MM/YYYY" element={Text} >{l.date.toString()}</Moment>}
-        />
-        ))
-      }
-      </List>
+      <View>
+        <StatusBar barStyle="dark-content" />
+        <List containerStyle={{marginBottom: 20}}>
+        {
+          this.state.receipts.map((l, i) => (
+          <ListItem
+            key={i}
+            title= {`$${parseFloat(l.total/100).toFixed(2)} `}
+            subtitle={l.location}
+            rightTitle={moment(l.date).format("MM/DD/YYYY")}
+          />
+          ))
+        }
+        </List>
+      </View>
     )
   }
 }
+
+
+          // rightTitle={<Moment format="DD/MM/YYYY" element={Text} >{l.date}</Moment>}

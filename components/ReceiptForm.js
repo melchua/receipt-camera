@@ -57,6 +57,7 @@ export default class ReceiptFormModal extends React.Component {
       })
       .then((response) => response.json())
       .then((response) => {
+        console.log("ReceiptForm LOCALURL: ", LOCALURL);
         console.log("response for projects: ", response);
         let projectsArray = [];
         let stateProjectObj = {};

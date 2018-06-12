@@ -9,9 +9,8 @@ import {
   Slider,
   Platform
 } from 'react-native';
-import {
-  createStackNavigator
-} from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
+import { LOCALURL } from 'react-native-dotenv';
 
 import ReceiptForm from './components/ReceiptForm';
 import CameraScreen from './components/CameraScreen';

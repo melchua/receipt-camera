@@ -27,9 +27,7 @@ import {
   Dropdown
 } from 'react-native-material-dropdown';
 
-import {
-  LOCALURL
-} from 'react-native-dotenv'
+import {LOCALURL} from 'react-native-dotenv';
 import FormValidator from './Validate';
 
 
@@ -106,12 +104,12 @@ export default class ReceiptFormModal extends React.Component {
         .catch((error) => {
           console.error(error);
         })
-    
+
   }
   render() {
 
    return (
-    <FormValidator 
+    <FormValidator
       total = {this.state.total}
       date = {this.state.date}
       projects = {this.state.projects}

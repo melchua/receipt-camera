@@ -17,7 +17,7 @@ import {
   AsyncStorage,
   StatusBar
   } from 'react-native';
-  import { LOCALURL } from 'react-native-dotenv'
+  import { LOCALURL } from 'react-native-dotenv';
   import {
     Ionicons,
     MaterialIcons,
@@ -39,7 +39,7 @@ class PhotoPreview extends React.Component {
       this.state = {
         image: "hello",
         visibleModal: null,
-      }
+      };
   }
   resizePicture = async () => {
     const manipResult = await ImageManipulator.manipulate(

@@ -360,7 +360,7 @@ class CameraScreen extends React.Component {
       </View>
       <TouchableOpacity style={styles.bottomButton} onPress={() => this.props.navigation.navigate('ReceiptScreen')}>
         <View>
-          <Foundation name="thumbnails" size={30} color="white" />
+          <Ionicons name="ios-filing" size={40} color="white" />
         </View>
       </TouchableOpacity>
     </View>
